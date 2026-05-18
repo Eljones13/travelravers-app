@@ -23,6 +23,7 @@ import type { CsvFestival } from "@/data/csvFestivals";
 import type { FestivalBrain } from "@/data/festivalBrain";
 import editorialData from "@/data/travel_ravers_editorial.json";
 import { buildStay22EmbedUrl, buildStay22DeepLinkUrl } from "@/lib/stay22";
+import TripCostCard from "./TripCostCard";
 
 interface Editorial {
   festivalName: string;
@@ -482,6 +483,9 @@ export default function CsvFestivalDetailLayout({ festival, brainFestival }: Pro
               </div>
             )}
           </section>
+
+          {/* TRIP COST ESTIMATOR */}
+          <TripCostCard festivalSlug={festival.slug} festivalName={festival.festivalName} />
 
           {/* 4C. YOUTUBE SEARCH CARD */}
           {festival.youtubeSearchQuery && (

@@ -19,6 +19,7 @@ import {
   ShoppingBag, AlertTriangle,
 } from "lucide-react";
 import EmailCapture from "./EmailCapture";
+import TripCostCard from "./TripCostCard";
 
 import type { Festival } from "@/data/content";
 import { csvFestivals } from "@/data/csvFestivals";
@@ -497,6 +498,9 @@ export default function FestivalDetailLayout({ festival, brainFestival }: Props)
               {flightsVia} · Stay22 · {ticketUrlSkiddle ? "Skiddle" : "Official"} — Affiliate / Partner Links
             </p>
           </section>
+
+          {/* TRIP COST ESTIMATOR */}
+          <TripCostCard festivalSlug={festival.slug} festivalName={festival.name} />
 
           {/* 2. THE VIBE */}
           {(editorial?.vibe || festival.description) && (
