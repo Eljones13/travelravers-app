@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import { FestivalStoreProvider } from "./context/FestivalStoreContext";
 import { FestivalFocusProvider } from "./context/FestivalFocusContext";
@@ -70,7 +70,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <HashRouter>
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route element={<Layout />}>
@@ -109,7 +109,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
-        </BrowserRouter>
+        </HashRouter>
       </TooltipProvider>
     </FestivalFocusProvider>
     </FestivalStoreProvider>

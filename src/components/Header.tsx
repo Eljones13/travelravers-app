@@ -34,7 +34,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/40 tr-header-shadow">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/40 tr-header-shadow" style={{ paddingTop: "env(safe-area-inset-top)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
 
           {/* Brand */}
@@ -101,7 +101,8 @@ export default function Header() {
           {/* Close — 44px tap target */}
           <button
             type="button"
-            className="absolute top-3 right-3 text-foreground p-3"
+            className="absolute right-3 text-foreground p-3"
+            style={{ top: "calc(env(safe-area-inset-top) + 0.75rem)" }}
             onClick={() => setMobileOpen(false)}
             aria-label="Close navigation menu"
           >
