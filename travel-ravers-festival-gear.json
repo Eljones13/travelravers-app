@@ -1,0 +1,753 @@
+{
+  "meta": {
+    "site": "Travel Ravers",
+    "version": "1.0",
+    "amazon_tags": {
+      "uk": "travelravers-21",
+      "us": "travelravers-20",
+      "ca": "travelraver08-20",
+      "au": "travelravers-22",
+      "de": "travelraver02-21",
+      "fr": "travelraver05-21",
+      "es": "travelraver0c-21",
+      "it": "travelrave092-21"
+    }
+  },
+  "festival_gear": [
+    {
+      "id": "power-bank-20000",
+      "name": "Portable Power Bank 20000mAh",
+      "category": "Tech & Power",
+      "description": "Keep your phone alive across a full 3-day festival. Charge 2 devices at once.",
+      "image_query": "portable power bank 20000mah black festival",
+      "placeholder_icon": "⚡",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=portable+power+bank+20000mah&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=portable+power+bank+20000mah&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=portable+power+bank+20000mah&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=portable+power+bank+20000mah&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=portable+power+bank+20000mah&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=portable+power+bank+20000mah&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=portable+power+bank+20000mah&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=portable+power+bank+20000mah&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Ultimate Festival Packing List 2026", "10 Things You'll Regret Not Bringing", "Creamfields Survival Guide", "Glastonbury Packing Guide"],
+      "seo_keywords": ["festival power bank", "best portable charger festival", "festival phone charger uk"]
+    },
+    {
+      "id": "led-head-torch",
+      "name": "LED Head Torch",
+      "category": "Tech & Power",
+      "description": "Essential for finding your tent at 3am. Hands-free lighting for camping and night ops.",
+      "image_query": "LED head torch camping festival",
+      "placeholder_icon": "🔦",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=led+head+torch+camping&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=led+head+torch+camping&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=led+head+torch+camping&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=led+head+torch+camping&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=led+stirnlampe+camping&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=lampe+frontale+led+camping&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=linterna+frontal+led+camping&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=torcia+frontale+led+camping&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Creamfields", "Boomtown", "Download"],
+      "blog_mentions": ["Ultimate Festival Packing List 2026", "Night Safety at Festivals", "Camping Festival Essentials"],
+      "seo_keywords": ["festival head torch", "best head torch camping", "festival torch uk"]
+    },
+    {
+      "id": "airtag-tile-tracker",
+      "name": "Bluetooth Tracker (AirTag / Tile)",
+      "category": "Tech & Power",
+      "description": "Attach to your bag, tent, or keys. Never lose your stuff in a 50,000 person crowd again.",
+      "image_query": "apple airtag bluetooth tracker",
+      "placeholder_icon": "📍",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=airtag+tile+bluetooth+tracker&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=airtag+bluetooth+tracker&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=airtag+bluetooth+tracker&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=airtag+bluetooth+tracker&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=airtag+bluetooth+tracker&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=airtag+bluetooth+tracker&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=airtag+bluetooth+tracker&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=airtag+bluetooth+tracker&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["How to Keep Your Stuff Safe at a Festival", "Ultimate Festival Packing List 2026", "Festival Security Guide"],
+      "seo_keywords": ["festival airtag", "bluetooth tracker festival", "how to not lose bag festival"]
+    },
+    {
+      "id": "waterproof-phone-pouch",
+      "name": "Waterproof Phone Pouch / Dry Bag",
+      "category": "Tech & Power",
+      "description": "Protect your phone from mud and rain. Works touchscreen through the case.",
+      "image_query": "waterproof phone pouch dry bag festival",
+      "placeholder_icon": "📱",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=waterproof+phone+pouch+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=waterproof+phone+pouch&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=waterproof+phone+pouch&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=waterproof+phone+pouch&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=wasserdichte+handyhülle&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=pochette+waterproof+telephone&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=funda+impermeable+movil&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=custodia+impermeabile+telefono&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Boomtown", "Reading", "Leeds"],
+      "blog_mentions": ["Glastonbury Packing Guide", "Festival Rain Survival Guide", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["waterproof phone case festival", "festival dry bag phone", "protect phone festival rain"]
+    },
+    {
+      "id": "solar-charger",
+      "name": "Solar Charger Panel",
+      "category": "Tech & Power",
+      "description": "Clip to your tent or bag and charge devices from the sun during the day.",
+      "image_query": "solar charger panel portable festival camping",
+      "placeholder_icon": "☀️",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=solar+charger+panel+festival+camping&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=solar+charger+panel+camping&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=solar+charger+panel+camping&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=solar+charger+panel+camping&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=solarpanel+camping+ladegerät&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=chargeur+solaire+portable+camping&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=cargador+solar+portatil+camping&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=caricabatterie+solare+portatile&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Tomorrowland", "Burning Man"],
+      "blog_mentions": ["Off-Grid Festival Power Guide", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["solar charger festival", "best solar panel camping festival", "off grid festival power"]
+    },
+    {
+      "id": "festival-tent-2man",
+      "name": "2-Man Festival Tent",
+      "category": "Camping & Shelter",
+      "description": "Lightweight, quick pitch tent built for muddy UK festival fields. Waterproof and wind resistant.",
+      "image_query": "2 man festival tent lightweight colourful",
+      "placeholder_icon": "⛺",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=2+man+festival+tent+lightweight&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=2+man+festival+tent&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=2+man+festival+tent&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=2+man+festival+tent&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=2+personen+festivalzelt&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=tente+2+personnes+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=tienda+2+personas+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=tenda+2+persone+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Creamfields", "Reading", "Leeds", "Download", "Boomtown"],
+      "blog_mentions": ["Best Festival Tents 2026", "Ultimate Festival Packing List 2026", "Glastonbury Camping Guide"],
+      "seo_keywords": ["best festival tent 2026", "2 man festival tent uk", "lightweight festival tent"]
+    },
+    {
+      "id": "sleeping-bag-3season",
+      "name": "3-Season Sleeping Bag",
+      "category": "Camping & Shelter",
+      "description": "Stay warm even when UK summer nights turn freezing. Compact and lightweight for packing.",
+      "image_query": "3 season sleeping bag compact mummy festival camping",
+      "placeholder_icon": "🛌",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=3+season+sleeping+bag+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=3+season+sleeping+bag&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=3+season+sleeping+bag&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=3+season+sleeping+bag&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=3+jahreszeiten+schlafsack&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=sac+de+couchage+3+saisons&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=saco+dormir+3+estaciones&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=sacco+a+pelo+3+stagioni&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Creamfields", "Download", "Reading", "Leeds"],
+      "blog_mentions": ["Ultimate Festival Packing List 2026", "How to Stay Warm at a Festival", "Glastonbury Camping Guide"],
+      "seo_keywords": ["best sleeping bag festival", "festival sleeping bag uk", "warm sleeping bag camping festival"]
+    },
+    {
+      "id": "inflatable-sleeping-mat",
+      "name": "Inflatable Sleeping Mat",
+      "category": "Camping & Shelter",
+      "description": "Don't sleep on the cold hard ground. Insulated inflatable mat rolls up tiny in your bag.",
+      "image_query": "inflatable sleeping mat camping festival compact",
+      "placeholder_icon": "🛏️",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=inflatable+sleeping+mat+camping&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=inflatable+sleeping+mat+camping&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=inflatable+sleeping+mat+camping&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=inflatable+sleeping+mat+camping&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=aufblasbare+schlafmatte+camping&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=matelas+gonflable+camping&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=colchoneta+hinchable+camping&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=materasso+gonfiabile+camping&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Ultimate Festival Packing List 2026", "Festival Sleep Hacks", "Glastonbury Camping Guide"],
+      "seo_keywords": ["best festival sleeping mat", "inflatable mat camping", "festival ground mat"]
+    },
+    {
+      "id": "camping-chair-foldable",
+      "name": "Foldable Camping Chair",
+      "category": "Camping & Shelter",
+      "description": "Lightweight fold-flat chair. Perfect for the arena between sets or chilling at the campsite.",
+      "image_query": "foldable camping chair lightweight compact festival",
+      "placeholder_icon": "🪑",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=foldable+camping+chair+lightweight&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=foldable+camping+chair&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=foldable+camping+chair&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=foldable+camping+chair&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=faltstuhl+camping+leicht&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=chaise+pliante+camping+légère&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=silla+plegable+camping&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=sedia+pieghevole+camping&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Boomtown", "Download", "Isle of Wight"],
+      "blog_mentions": ["Ultimate Festival Packing List 2026", "Festival Comfort Hacks", "What to Pack for a 3 Day Festival"],
+      "seo_keywords": ["festival camping chair", "lightweight folding chair festival", "best camping chair uk"]
+    },
+    {
+      "id": "tent-flag-marker",
+      "name": "Tent Flag / Marker Pole",
+      "category": "Camping & Shelter",
+      "description": "Find your tent in a sea of 10,000 others. Attach a flag on a tall pole and you'll never get lost.",
+      "image_query": "festival tent marker flag pole camping",
+      "placeholder_icon": "🚩",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=festival+tent+flag+marker+pole&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=festival+tent+flag+marker&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=festival+tent+flag+marker&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=festival+tent+flag+marker&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=festival+zeltmarkierung+fahne&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=drapeau+tente+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=bandera+tienda+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=bandiera+tenda+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Creamfields", "Reading", "Leeds", "Download"],
+      "blog_mentions": ["How to Find Your Tent at a Festival", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["festival tent flag", "how to find tent festival", "tent marker pole festival"]
+    },
+    {
+      "id": "bum-bag-fanny-pack",
+      "name": "Festival Bum Bag / Fanny Pack",
+      "category": "Bags & Storage",
+      "description": "Keep your phone, cash and cards secure on the dancefloor. Hands-free and anti-pickpocket.",
+      "image_query": "festival bum bag fanny pack crossbody colourful",
+      "placeholder_icon": "👜",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=festival+bum+bag+fanny+pack&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=festival+fanny+pack&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=festival+fanny+pack&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=festival+bum+bag&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=festival+bauchtasche&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=banane+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=riñonera+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=marsupio+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Best Festival Bags 2026", "How to Keep Your Stuff Safe at a Festival", "Rave Fashion Essentials"],
+      "seo_keywords": ["festival bum bag", "best fanny pack festival uk", "rave bum bag"]
+    },
+    {
+      "id": "hydration-backpack",
+      "name": "Hydration Backpack",
+      "category": "Bags & Storage",
+      "description": "2L water bladder in a sleek backpack. Stay hydrated without queuing for water all day.",
+      "image_query": "hydration backpack 2L water bladder festival rave",
+      "placeholder_icon": "🎒",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=hydration+backpack+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=hydration+backpack+festival&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=hydration+backpack+festival&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=hydration+backpack+festival&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=trinkrucksack+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=sac+hydratation+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=mochila+hidratacion+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=zaino+idratazione+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Tomorrowland", "Creamfields", "EDC", "Ultra"],
+      "blog_mentions": ["Festival Hydration Guide", "Rave Survival Kit", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["hydration backpack festival", "water backpack rave", "festival hydration pack uk"]
+    },
+    {
+      "id": "waterproof-dry-bag",
+      "name": "Waterproof Dry Bag 10L",
+      "category": "Bags & Storage",
+      "description": "Keeps clothes, electronics and documents bone dry even in the worst downpour.",
+      "image_query": "waterproof dry bag 10L roll top festival",
+      "placeholder_icon": "🎽",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=waterproof+dry+bag+10l+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=waterproof+dry+bag+10l&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=waterproof+dry+bag+10l&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=waterproof+dry+bag+10l&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=wasserdichter+packsack+10l&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=sac+étanche+10l+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=bolsa+estanca+10l+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=sacca+impermeabile+10l+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Boomtown", "Reading", "Download"],
+      "blog_mentions": ["Festival Rain Survival Guide", "Camping Festival Essentials", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["dry bag festival", "waterproof bag festival", "10l dry bag camping"]
+    },
+    {
+      "id": "wellington-boots",
+      "name": "Wellington Boots",
+      "category": "Weather & Survival",
+      "description": "The #1 UK festival essential. Don't get caught in the mud without them.",
+      "image_query": "festival wellington boots colourful mud",
+      "placeholder_icon": "🥾",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=festival+wellington+boots&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=festival+rain+boots&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=festival+rain+boots&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=festival+rain+boots&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=festival+gummistiefel&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=bottes+caoutchouc+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=botas+agua+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=stivali+gomma+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Reading", "Leeds", "Boomtown", "Download"],
+      "blog_mentions": ["Glastonbury Packing Guide", "Ultimate Festival Packing List 2026", "Best Festival Boots 2026"],
+      "seo_keywords": ["best festival wellies", "festival wellington boots uk", "glastonbury boots"]
+    },
+    {
+      "id": "waterproof-poncho",
+      "name": "Waterproof Festival Poncho",
+      "category": "Weather & Survival",
+      "description": "Pack-flat poncho that covers you and your bag. Essential for UK summer weather.",
+      "image_query": "waterproof festival poncho packable rain mac",
+      "placeholder_icon": "🧥",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=waterproof+festival+poncho&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=waterproof+festival+poncho&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=waterproof+festival+poncho&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=waterproof+festival+poncho&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=festival+regenponcho+wasserdicht&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=poncho+imperméable+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=poncho+impermeable+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=poncho+impermeabile+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Reading", "Leeds", "Boomtown"],
+      "blog_mentions": ["Festival Rain Survival Guide", "Glastonbury Packing Guide", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["festival poncho", "best waterproof poncho festival uk", "festival rain mac"]
+    },
+    {
+      "id": "festival-blanket-pashmina",
+      "name": "Festival Blanket / Pashmina",
+      "category": "Weather & Survival",
+      "description": "Doubles as a warm layer, a picnic blanket and a rave accessory. Never leave home without one.",
+      "image_query": "festival pashmina blanket colourful wrap",
+      "placeholder_icon": "🧣",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=festival+pashmina+blanket&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=festival+blanket+pashmina&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=festival+blanket+pashmina&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=festival+blanket+pashmina&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=festival+decke+pashmina&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=pashmina+couverture+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=pashmina+manta+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=pashmina+coperta+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Fashion Essentials", "How to Stay Warm at Night Festivals", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["festival pashmina", "festival blanket uk", "warm festival wrap"]
+    },
+    {
+      "id": "loops-earplugs",
+      "name": "Loop Earplugs (Festival Edition)",
+      "category": "Health & Hygiene",
+      "description": "Protect your hearing without killing the vibe. Loops reduce volume without muffling the music.",
+      "image_query": "loop earplugs festival music pink stylish",
+      "placeholder_icon": "👂",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=loop+earplugs+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=loop+earplugs+festival&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=loop+earplugs+festival&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=loop+earplugs+festival&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=loop+ohrstöpsel+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=bouchons+oreilles+loop+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=tapones+oidos+loop+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=tappi+orecchie+loop+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["How to Protect Your Hearing at Festivals", "Rave Survival Kit", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["loop earplugs festival", "best festival earplugs", "hearing protection concert uk"]
+    },
+    {
+      "id": "sun-cream-spf50",
+      "name": "Sun Cream SPF 50",
+      "category": "Health & Hygiene",
+      "description": "You'll be in direct sun for 12 hours. Don't be the one who gets burned on day 1.",
+      "image_query": "sun cream SPF 50 factor sunscreen bottle",
+      "placeholder_icon": "☀️",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=sun+cream+spf+50+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=sunscreen+spf+50&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=sunscreen+spf+50&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=sunscreen+spf+50&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=sonnencreme+spf+50&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=crème+solaire+spf+50&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=crema+solar+spf+50&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=crema+solare+spf+50&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Ultimate Festival Packing List 2026", "Festival Health Essentials", "Tomorrowland Packing Guide"],
+      "seo_keywords": ["festival sun cream", "best sunscreen festival uk", "spf 50 festival"]
+    },
+    {
+      "id": "baby-wipes",
+      "name": "Baby Wipes / Body Wipes (Multipack)",
+      "category": "Health & Hygiene",
+      "description": "Your festival shower. Get a multipack — you'll use them all and so will your mates.",
+      "image_query": "baby wipes multipack sensitive festival",
+      "placeholder_icon": "🧻",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=baby+wipes+multipack+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=body+wipes+multipack&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=body+wipes+multipack&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=body+wipes+multipack&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=feuchttücher+multipack+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=lingettes+corps+multipack+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=toallitas+cuerpo+multipack&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=salviette+corpo+multipack+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Hygiene Hacks", "Ultimate Festival Packing List 2026", "Glastonbury Survival Guide"],
+      "seo_keywords": ["festival baby wipes", "body wipes festival", "festival hygiene essentials"]
+    },
+    {
+      "id": "dry-shampoo",
+      "name": "Dry Shampoo",
+      "category": "Health & Hygiene",
+      "description": "3 days, no shower, fresh hair. Grab a can (or two) before you go.",
+      "image_query": "dry shampoo can batiste festival hair",
+      "placeholder_icon": "💆",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=dry+shampoo+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=dry+shampoo+festival&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=dry+shampoo+festival&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=dry+shampoo+festival&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=trockenshampoo+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=shampooing+sec+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=champú+seco+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=shampoo+secco+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Hair Hacks", "Festival Hygiene Essentials", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["dry shampoo festival", "best dry shampoo festival uk", "festival hair no shower"]
+    },
+    {
+      "id": "shewee",
+      "name": "She Wee / Female Urination Device",
+      "category": "Health & Hygiene",
+      "description": "Skip the festival toilet queue. Game-changing for female festival-goers.",
+      "image_query": "shewee female urination device festival pink",
+      "placeholder_icon": "🚻",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=shewee+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=female+urination+device+festival&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=female+urination+device+festival&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=female+urination+device+festival&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=urinierhilfe+frauen+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=urinoir+femme+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=orinal+femenino+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=orinatoio+femminile+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Reading", "Leeds", "Creamfields"],
+      "blog_mentions": ["Festival Essentials for Women", "Glastonbury Survival Guide", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["shewee festival", "female urination device festival", "festival toilet queue hack"]
+    },
+    {
+      "id": "hand-sanitiser",
+      "name": "Hand Sanitiser (Travel Size Multipack)",
+      "category": "Health & Hygiene",
+      "description": "Festival toilets are grim. Keep a mini bottle on you at all times.",
+      "image_query": "hand sanitiser travel size multipack gel",
+      "placeholder_icon": "🧴",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=hand+sanitiser+travel+size+multipack&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=hand+sanitizer+travel+size+multipack&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=hand+sanitizer+travel+size+multipack&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=hand+sanitiser+travel+size&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=handdesinfektionsmittel+reisegröße&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=gel+hydroalcoolique+voyage+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=gel+hidroalcohol+viaje+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=gel+igienizzante+mani+viaggio&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Hygiene Essentials", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["festival hand sanitiser", "travel hand gel multipack", "festival hygiene"]
+    },
+    {
+      "id": "toilet-roll",
+      "name": "Toilet Roll Multipack",
+      "category": "Health & Hygiene",
+      "description": "Festival loos run out fast. Bring your own and store in a zip bag to keep it dry.",
+      "image_query": "toilet roll multipack camping festival pack",
+      "placeholder_icon": "🧻",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=toilet+roll+multipack+camping+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=toilet+paper+multipack+camping&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=toilet+paper+multipack+camping&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=toilet+paper+multipack+camping&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=toilettenpapier+multipack+camping&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=papier+toilette+multipack+camping&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=papel+higienico+multipack+camping&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=carta+igienica+multipack+camping&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Hygiene Essentials", "What Festivals Never Tell You", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["toilet roll festival", "camping loo roll", "festival toilet essentials"]
+    },
+    {
+      "id": "mini-first-aid-kit",
+      "name": "Mini First Aid Kit",
+      "category": "Safety & First Aid",
+      "description": "Compact kit with plasters, antiseptic wipes, and bandages. Small enough to fit in your bum bag.",
+      "image_query": "mini first aid kit compact travel festival",
+      "placeholder_icon": "🩹",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=mini+first+aid+kit+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=mini+first+aid+kit+travel&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=mini+first+aid+kit+travel&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=mini+first+aid+kit+travel&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=mini+erste+hilfe+set+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=mini+trousse+premiers+secours+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=mini+botiquin+primeros+auxilios&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=mini+kit+pronto+soccorso+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Safety Guide", "Rave Survival Kit", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["festival first aid kit", "mini first aid kit festival", "festival safety essentials"]
+    },
+    {
+      "id": "blister-plasters",
+      "name": "Blister Plasters (Compeed)",
+      "category": "Safety & First Aid",
+      "description": "You will walk 20,000+ steps a day. Your feet will thank you for these.",
+      "image_query": "compeed blister plasters festival pack",
+      "placeholder_icon": "🩹",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=compeed+blister+plasters+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=blister+plasters+compeed&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=blister+plasters+compeed&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=blister+plasters+compeed&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=blasenpflaster+compeed+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=pansements+ampoules+compeed&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=compeed+ampollas+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=cerotti+vesciche+compeed+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Foot Care Guide", "Festival Health Essentials", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["blister plasters festival", "compeed festival", "festival foot care"]
+    },
+    {
+      "id": "tent-cable-lock",
+      "name": "Tent Cable Lock / Padlock Set",
+      "category": "Safety & First Aid",
+      "description": "Lock your tent zip while you're at the stages. Basic but effective theft deterrent.",
+      "image_query": "tent cable lock padlock festival camping",
+      "placeholder_icon": "🔒",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=tent+cable+lock+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=tent+cable+lock+camping&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=tent+cable+lock+camping&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=tent+cable+lock+camping&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=zelt+kabelschloss+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=cadenas+câble+tente+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=candado+cable+tienda+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=lucchetto+cavo+tenda+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["How to Keep Your Stuff Safe at a Festival", "Festival Security Guide", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["tent lock festival", "festival tent security", "lock tent zip"]
+    },
+    {
+      "id": "biodegradable-glitter",
+      "name": "Biodegradable Festival Glitter",
+      "category": "Rave Gear & Fashion",
+      "description": "Eco-friendly glitter that won't trash the environment. Available in neon sets perfect for rave looks.",
+      "image_query": "biodegradable festival glitter neon rave set",
+      "placeholder_icon": "✨",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=biodegradable+festival+glitter+neon&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=biodegradable+festival+glitter&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=biodegradable+festival+glitter&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=biodegradable+festival+glitter&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=biologisch+abbaubarer+glitter+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=paillettes+biodégradables+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=purpurina+biodegradable+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=glitter+biodegradabile+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Fashion & Beauty Guide", "Eco Festival Tips", "Rave Outfit Essentials"],
+      "seo_keywords": ["biodegradable glitter festival", "eco festival glitter uk", "rave glitter neon"]
+    },
+    {
+      "id": "mini-handheld-fan",
+      "name": "Mini Handheld USB Fan",
+      "category": "Rave Gear & Fashion",
+      "description": "Cool down in a packed tent crowd instantly. Rechargeable and small enough to clip to your bag.",
+      "image_query": "mini handheld USB fan portable festival rave",
+      "placeholder_icon": "🌀",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=mini+handheld+usb+fan+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=mini+handheld+usb+fan+festival&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=mini+handheld+usb+fan+festival&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=mini+handheld+usb+fan+festival&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=mini+usb+ventilator+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=mini+ventilateur+usb+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=mini+ventilador+usb+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=mini+ventilatore+usb+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Tomorrowland", "EDC", "Creamfields", "Ultra"],
+      "blog_mentions": ["How to Stay Cool at a Summer Festival", "Rave Survival Kit", "Festival Hacks 2026"],
+      "seo_keywords": ["festival handheld fan", "mini fan rave", "cool down festival tent"]
+    },
+    {
+      "id": "rave-kandi-wristbands",
+      "name": "Rave Kandi Wristbands",
+      "category": "Rave Gear & Fashion",
+      "description": "Trade, collect, connect. The universal rave currency. Get a starter pack before your first festival.",
+      "image_query": "rave kandi wristbands beads colourful festival",
+      "placeholder_icon": "📿",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=rave+kandi+wristbands+beads&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=rave+kandi+wristbands+beads&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=rave+kandi+wristbands&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=rave+kandi+wristbands&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=rave+kandi+armbänder+perlen&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=bracelets+kandi+rave+perles&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=pulseras+kandi+rave&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=braccialetti+kandi+rave&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["EDC", "Tomorrowland", "Creamfields", "Defqon"],
+      "blog_mentions": ["What is Kandi? Festival Rave Culture Guide", "Rave Fashion Essentials", "Festival Accessories 2026"],
+      "seo_keywords": ["rave kandi wristbands", "festival kandi beads uk", "what is kandi rave"]
+    },
+    {
+      "id": "glow-sticks-led",
+      "name": "Glow Sticks / LED Neon Accessories",
+      "category": "Rave Gear & Fashion",
+      "description": "Light up the crowd at night. Glow sticks, LED glasses and neon accessories for the perfect rave look.",
+      "image_query": "glow sticks LED neon accessories festival rave night",
+      "placeholder_icon": "🌈",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=glow+sticks+led+festival+rave&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=glow+sticks+led+festival+rave&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=glow+sticks+led+festival+rave&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=glow+sticks+led+festival+rave&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=knicklichter+led+festival+rave&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=bâtons+lumineux+led+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=palo+luz+led+festival+rave&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=bastoncini+luminosi+led+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Fashion & Beauty Guide", "Rave Outfit Essentials", "Night Festival Survival Guide"],
+      "seo_keywords": ["glow sticks festival", "LED accessories rave", "neon festival accessories uk"]
+    },
+    {
+      "id": "festival-sunglasses",
+      "name": "Festival Sunglasses",
+      "category": "Rave Gear & Fashion",
+      "description": "Oversized, colourful, or mirrored — festival sunnies are a non-negotiable accessory.",
+      "image_query": "festival sunglasses oversized colourful rave",
+      "placeholder_icon": "🕶️",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=festival+sunglasses+oversized+colourful&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=festival+sunglasses+oversized&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=festival+sunglasses+oversized&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=festival+sunglasses+oversized&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=festival+sonnenbrille+bunt&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=lunettes+festival+colorées&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=gafas+sol+festival+coloridas&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=occhiali+sole+festival+colorati&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Fashion Guide 2026", "Rave Outfit Essentials", "Tomorrowland Packing Guide"],
+      "seo_keywords": ["festival sunglasses", "best festival sunglasses uk 2026", "rave sunglasses colourful"]
+    },
+    {
+      "id": "reusable-water-bottle",
+      "name": "Reusable Water Bottle 1L",
+      "category": "Food & Drink",
+      "description": "Most festivals have free water refill points. Bring a 1L bottle and save money all weekend.",
+      "image_query": "reusable water bottle 1L festival hydro flask",
+      "placeholder_icon": "💧",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=reusable+water+bottle+1l+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=reusable+water+bottle+1l&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=reusable+water+bottle+1l&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=reusable+water+bottle+1l&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=wiederverwendbare+trinkflasche+1l&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=gourde+réutilisable+1l+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=botella+agua+reutilizable+1l+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=borraccia+riutilizzabile+1l+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Hydration Guide", "Eco Festival Tips", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["festival water bottle", "reusable bottle festival uk", "best water bottle festival"]
+    },
+    {
+      "id": "cool-bag",
+      "name": "Soft Cooler Bag",
+      "category": "Food & Drink",
+      "description": "Keep drinks cold all day at the campsite. Lightweight and foldable for easy packing.",
+      "image_query": "soft cooler bag festival camping drinks",
+      "placeholder_icon": "🧊",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=soft+cool+bag+festival+camping&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=soft+cooler+bag+camping&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=soft+cooler+bag+camping&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=soft+cooler+bag+camping&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=kühltasche+camping+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=sac+isotherme+camping+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=bolsa+fria+camping+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=borsa+termica+camping+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Creamfields", "Reading", "Leeds"],
+      "blog_mentions": ["Festival Food & Drink Guide", "Camping Festival Essentials", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["festival cool bag", "soft cooler bag camping", "keep drinks cold festival"]
+    },
+    {
+      "id": "collapsible-cup",
+      "name": "Collapsible Reusable Cup",
+      "category": "Food & Drink",
+      "description": "Most festivals charge for cups. Bring your own and save £2-3 every single drink.",
+      "image_query": "collapsible reusable cup festival silicone",
+      "placeholder_icon": "🥤",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=collapsible+reusable+cup+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=collapsible+reusable+cup&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=collapsible+reusable+cup&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=collapsible+reusable+cup&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=faltbarer+becher+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=tasse+pliable+réutilisable+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=vaso+plegable+reutilizable+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=tazza+pieghevole+riutilizzabile+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["All"],
+      "blog_mentions": ["Festival Money Saving Tips", "Eco Festival Guide", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["collapsible cup festival", "reusable festival cup", "festival cup uk"]
+    },
+    {
+      "id": "camping-cutlery",
+      "name": "Camping Cutlery Set",
+      "category": "Food & Drink",
+      "description": "Lightweight reusable knife, fork, spoon and chopsticks. Better than plastic disposables.",
+      "image_query": "camping cutlery set reusable festival lightweight",
+      "placeholder_icon": "🍴",
+      "amazon_urls": {
+        "uk": "https://www.amazon.co.uk/s?k=camping+cutlery+set+festival&tag=travelravers-21",
+        "us": "https://www.amazon.com/s?k=camping+cutlery+set&tag=travelravers-20",
+        "ca": "https://www.amazon.ca/s?k=camping+cutlery+set&tag=travelraver08-20",
+        "au": "https://www.amazon.com.au/s?k=camping+cutlery+set&tag=travelravers-22",
+        "de": "https://www.amazon.de/s?k=camping+besteck+set+festival&tag=travelraver02-21",
+        "fr": "https://www.amazon.fr/s?k=couverts+camping+festival&tag=travelraver05-21",
+        "es": "https://www.amazon.es/s?k=cubiertos+camping+festival&tag=travelraver0c-21",
+        "it": "https://www.amazon.it/s?k=posate+camping+festival&tag=travelrave092-21"
+      },
+      "featured_on_festivals": ["Glastonbury", "Boomtown", "Wilderness"],
+      "blog_mentions": ["Festival Food Guide", "Eco Festival Tips", "Ultimate Festival Packing List 2026"],
+      "seo_keywords": ["camping cutlery festival", "reusable cutlery festival", "camping fork spoon set"]
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* TRAVEL RAVERS: Near-black festival HUD base */
+    --background: 220 60% 3%;
+    --foreground: 210 20% 93%;
+
+    --card: 220 40% 6%;
+    --card-foreground: 210 20% 93%;
+
+    --popover: 220 40% 6%;
+    --popover-foreground: 210 20% 93%;
+
+    --primary: 185 80% 50%;
+    --primary-foreground: 220 60% 3%;
+
+    --secondary: 220 30% 10%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 220 20% 14%;
+    --muted-foreground: 210 10% 55%;
+
+    --accent: 220 25% 12%;
+    --accent-foreground: 210 20% 93%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 15%;
+    --input: 220 20% 15%;
+    --ring: 185 80% 50%;
+
+    --radius: 0.5rem;
+
+    /* TRAVEL RAVERS: Semantic HUD colors */
+    --tr-cyan: 185 80% 50%;
+    --tr-green: 155 75% 45%;
+    --tr-red: 0 72% 55%;
+    --tr-purple: 270 60% 55%;
+    --tr-amber: 38 92% 55%;
+
+    /* Status pills */
+    --tickets-available: 155 75% 45%;
+    --selling-fast: 38 92% 55%;
+    --sold-out: 0 72% 51%;
+    --tbc: 220 20% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Rajdhani', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* TRAVEL RAVERS: Glass card system */
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-md border border-border rounded-lg;
+    box-shadow: 0 4px 24px hsl(220 60% 3% / 0.6), inset 0 1px 0 hsl(210 20% 93% / 0.03);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:bg-card/80 hover:border-border/60;
+  }
+
+  /* Neon-accented glass card — featured items, active states */
+  .glass-card-neon {
+    @apply bg-card/60 backdrop-blur-md border border-tr-cyan/30 rounded-lg transition-all duration-300;
+    box-shadow: 0 0 0 1px hsl(var(--tr-cyan) / 0.08), 0 4px 24px hsl(220 60% 3% / 0.6);
+  }
+  .glass-card-neon:hover {
+    @apply border-tr-cyan/50;
+    box-shadow: 0 0 20px hsl(var(--tr-cyan) / 0.12), 0 0 1px hsl(var(--tr-cyan) / 0.5), 0 4px 24px hsl(220 60% 3% / 0.6);
+  }
+
+  /* TRAVEL RAVERS: Text utilities */
+  .text-dim {
+    @apply text-muted-foreground;
+  }
+
+  .text-subtle {
+    @apply text-foreground/60;
+  }
+
+  .label-caps {
+    font-family: 'Orbitron', system-ui, sans-serif;
+    @apply text-xs font-semibold text-muted-foreground uppercase tracking-[0.2em];
+  }
+
+  /* TRAVEL RAVERS: Button system */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold hover:bg-primary/90 transition-all duration-200 inline-flex items-center gap-2 active:scale-[0.97];
+    font-family: 'Orbitron', system-ui, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 0 transparent;
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 14px hsl(var(--tr-cyan) / 0.35), 0 0 28px hsl(var(--tr-cyan) / 0.12);
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground border border-border px-6 py-3 rounded-md hover:bg-accent hover:border-border/60 transition-all duration-200 inline-flex items-center gap-2 active:scale-[0.97];
+    font-family: 'Orbitron', system-ui, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Ghost / outlined button — cyan border, no fill (hero secondary CTA) */
+  .btn-ghost {
+    @apply border border-tr-cyan/60 text-tr-cyan bg-transparent px-6 py-3 rounded-md hover:bg-tr-cyan/10 hover:border-tr-cyan transition-all duration-200 inline-flex items-center gap-2 active:scale-[0.97];
+    font-family: 'Orbitron', system-ui, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .btn-ghost:hover {
+    box-shadow: 0 0 12px hsl(var(--tr-cyan) / 0.2);
+  }
+
+  /* Inline caps link (e.g. "View all festivals →") */
+  .tr-link-caps {
+    font-family: 'Orbitron', system-ui, sans-serif;
+    @apply text-[0.65rem] uppercase tracking-[0.15em] font-semibold;
+  }
+
+  /* TRAVEL RAVERS: Layout utilities */
+  .page-container {
+    @apply min-h-screen bg-background pt-28 pb-16 px-6;
+  }
+
+  .page-inner {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .content-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-7;
+  }
+
+  /* TRAVEL RAVERS: HUD grain overlay */
+  .grain-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* TRAVEL RAVERS: HUD accent colors as utility classes */
+  .text-tr-cyan { color: hsl(var(--tr-cyan)); }
+  .text-tr-green { color: hsl(var(--tr-green)); }
+  .text-tr-red { color: hsl(var(--tr-red)); }
+  .text-tr-purple { color: hsl(var(--tr-purple)); }
+  .text-tr-amber { color: hsl(var(--tr-amber)); }
+
+  .bg-tr-cyan { background-color: hsl(var(--tr-cyan)); }
+  .bg-tr-green { background-color: hsl(var(--tr-green)); }
+  .bg-tr-red { background-color: hsl(var(--tr-red)); }
+  .bg-tr-purple { background-color: hsl(var(--tr-purple)); }
+  .bg-tr-amber { background-color: hsl(var(--tr-amber)); }
+
+  .border-tr-cyan { border-color: hsl(var(--tr-cyan)); }
+  .border-tr-green { border-color: hsl(var(--tr-green)); }
+  .border-tr-red { border-color: hsl(var(--tr-red)); }
+  .border-tr-purple { border-color: hsl(var(--tr-purple)); }
+  .border-tr-amber { border-color: hsl(var(--tr-amber)); }
+  .text-tr-amber { color: hsl(var(--tr-amber)); }
+
+  /* TRAVEL RAVERS: Status pill system */
+  .tr-status-pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider;
+    font-family: 'Orbitron', system-ui, sans-serif;
+    font-size: 0.6rem;
+  }
+
+  /* TRAVEL RAVERS: Fixed header neon bottom glow */
+  .tr-header-shadow {
+    box-shadow: 0 1px 0 0 hsl(var(--tr-cyan) / 0.12), 0 4px 32px hsl(220 60% 3% / 0.8);
+  }
+
+  /* TRAVEL RAVERS: Festival list card — left-border glow on hover */
+  .tr-festival-card:hover [data-left-glow] {
+    box-shadow: 0 0 8px hsl(var(--tr-cyan) / 0.6), 0 0 2px hsl(var(--tr-cyan) / 0.9);
+  }
+
+  /* TRAVEL RAVERS: Waveform bar — CSS animation replaces 32 Framer Motion JS loops */
+  .tr-waveform-bar {
+    animation: tr-waveform 1.4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tr-waveform-bar {
+      animation: none;
+      height: 6px !important;
+    }
+  }
+}
+
+@keyframes tr-waveform {
+  0%, 100% { height: 2px; }
+  50% { height: var(--wf-peak, 10px); }
+}

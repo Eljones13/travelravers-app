@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#03060f"/>
+      <stop offset="50%" style="stop-color:#151500"/>
+      <stop offset="100%" style="stop-color:#252500"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#g)"/>
+  <text x="600" y="320" font-family="monospace" font-size="40" fill="#facc15" fill-opacity="0.15" text-anchor="middle" dominant-baseline="middle" letter-spacing="5">BEST POWER BANKS 2026</text>
+  <text x="600" y="380" font-family="monospace" font-size="18" fill="#facc15" fill-opacity="0.08" text-anchor="middle" letter-spacing="4">TRAVEL RAVERS</text>
+  <rect x="0" y="0" width="1200" height="2" fill="#facc15" fill-opacity="0.12"/>
+  <rect x="0" y="673" width="1200" height="2" fill="#facc15" fill-opacity="0.12"/>
+</svg>

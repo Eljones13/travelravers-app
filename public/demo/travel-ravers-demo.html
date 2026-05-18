@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Travel Ravers // Tactical HUD</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cyan:#00f5ff; --magenta:#ff00ff; --yellow:#ffff00;
+  --green:#00ff88; --red:#ff2244; --orange:#ff8800;
+  --bg:#03060f; --text:#c8e8ff; --dim:#3a6a88;
+  --glass:rgba(6,16,32,0.6); --gb:rgba(0,245,255,0.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden;}
+
+/* Scanlines */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,245,255,0.012) 2px,rgba(0,245,255,0.012) 4px);pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.025) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0;}
+
+/* BG Orbs */
+.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);animation:orbF 14s ease-in-out infinite alternate;}
+.o1{width:500px;height:500px;background:radial-gradient(circle,rgba(0,245,255,0.2),transparent 70%);top:-150px;left:-150px;animation-duration:16s;}
+.o2{width:400px;height:400px;background:radial-gradient(circle,rgba(255,0,255,0.18),transparent 70%);bottom:50px;right:-100px;animation-duration:12s;animation-delay:-5s;}
+.o3{width:300px;height:300px;background:radial-gradient(circle,rgba(0,60,255,0.15),transparent 70%);top:40%;left:35%;animation-duration:18s;animation-delay:-9s;}
+@keyframes orbF{0%{transform:translate(0,0) scale(1);}50%{transform:translate(25px,-35px) scale(1.06);}100%{transform:translate(-15px,25px) scale(0.96);}}
+
+/* WRAPPER */
+.app-wrapper{display:flex;flex-direction:column;align-items:center;padding:24px 16px 40px;position:relative;z-index:1;}
+
+/* PHONE SHELL */
+.phone{width:390px;min-height:860px;background:rgba(4,10,22,0.82);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border-radius:46px;border:1px solid rgba(0,245,255,0.32);box-shadow:0 0 0 1px rgba(0,245,255,0.06),0 0 80px rgba(0,245,255,0.1),0 40px 100px rgba(0,0,0,0.7),inset 0 1px 0 rgba(0,245,255,0.18),inset 0 0 60px rgba(0,245,255,0.02);overflow:hidden;position:relative;display:flex;flex-direction:column;}
+
+/* STATUS BAR */
+.sbar{display:flex;justify-content:space-between;align-items:center;padding:14px 26px 10px;background:rgba(0,0,0,0.45);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,245,255,0.1);font-size:11px;color:var(--cyan);letter-spacing:1px;flex-shrink:0;}
+.gtitle{font-family:'Orbitron',monospace;font-size:13px;font-weight:900;letter-spacing:4px;color:var(--cyan);text-shadow:0 0 12px var(--cyan),2px 0 var(--magenta),-2px 0 rgba(0,245,255,0.4);animation:glitch 5s infinite;}
+@keyframes glitch{0%,88%,100%{text-shadow:0 0 12px var(--cyan);}90%{text-shadow:3px 0 var(--magenta),-3px 0 var(--cyan),0 0 20px var(--cyan);}93%{text-shadow:-2px 0 var(--magenta),2px 0 var(--cyan);}95%{text-shadow:0 0 12px var(--cyan);}}
+.batt{font-size:10px;display:flex;align-items:center;gap:6px;}
+
+/* SCREENS */
+.screen{display:none;flex-direction:column;flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;}
+.screen::-webkit-scrollbar{display:none;}
+.screen.active{display:flex;}
+.scroll{flex:1;overflow-y:auto;padding-bottom:8px;}
+.scroll::-webkit-scrollbar{display:none;}
+
+/* NAV */
+.nav{display:flex;justify-content:space-around;align-items:center;padding:10px 0 18px;background:rgba(0,0,0,0.55);backdrop-filter:blur(30px);border-top:1px solid rgba(0,245,255,0.12);box-shadow:0 -4px 24px rgba(0,0,0,0.4),inset 0 1px 0 rgba(0,245,255,0.07);flex-shrink:0;}
+.ni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 10px;border-radius:10px;transition:all 0.2s;font-size:8px;letter-spacing:1.5px;color:var(--dim);}
+.ni svg{width:22px;height:22px;}
+.ni:hover,.ni.active{color:var(--cyan);text-shadow:0 0 8px var(--cyan);}
+.ni.sos-nav{color:rgba(255,34,68,0.6);}
+.ni.sos-nav.active,.ni.sos-nav:hover{color:var(--red);text-shadow:0 0 8px var(--red);}
+
+/* PANEL */
+.panel{background:rgba(0,245,255,0.025);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(0,245,255,0.15);border-radius:14px;padding:16px;margin:0 16px 12px;position:relative;box-shadow:0 4px 28px rgba(0,0,0,0.35),inset 0 1px 0 rgba(0,245,255,0.09);}
+.panel::before{content:'';position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.35),transparent);}
+.ptitle{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:14px;text-shadow:0 0 8px rgba(0,245,255,0.4);}
+
+/* SCREEN HEADER */
+.shead{padding:16px 16px 8px;display:flex;justify-content:space-between;align-items:center;}
+.stitle{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);}
+.ssub{font-size:8px;color:var(--dim);letter-spacing:2px;margin-top:3px;}
+
+/* OFFLINE BADGE */
+.obadge{display:inline-flex;align-items:center;gap:5px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.3);border-radius:20px;padding:4px 12px;font-size:8px;color:var(--green);letter-spacing:2px;}
+.odot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+/* ===================== FESTIVAL SELECTOR ===================== */
+.fest-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 12px;}
+.fest-card{border-radius:12px;border:1px solid rgba(0,245,255,0.15);background:rgba(0,245,255,0.03);backdrop-filter:blur(12px);padding:14px 12px;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;}
+.fest-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:0.6;}
+.fest-card:hover,.fest-card.selected{border-color:var(--accent,var(--cyan));background:rgba(0,245,255,0.07);box-shadow:0 0 20px rgba(0,245,255,0.1),inset 0 1px 0 rgba(0,245,255,0.12);transform:translateY(-2px);}
+.fest-card.selected::after{content:'✓';position:absolute;top:8px;right:10px;font-size:10px;color:var(--accent,var(--cyan));}
+.fest-emoji{font-size:24px;margin-bottom:6px;}
+.fest-name{font-family:'Orbitron',monospace;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--text);margin-bottom:3px;}
+.fest-info{font-size:8px;color:var(--dim);letter-spacing:1px;line-height:1.6;}
+.fest-cap{font-size:8px;margin-top:4px;letter-spacing:1px;}
+
+.enter-btn{display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:16px;border-radius:12px;border:1px solid rgba(0,245,255,0.4);background:rgba(0,245,255,0.08);backdrop-filter:blur(16px);color:var(--cyan);font-family:'Orbitron',monospace;font-size:12px;letter-spacing:4px;cursor:pointer;text-align:center;transition:all 0.2s;box-shadow:0 4px 20px rgba(0,245,255,0.08),inset 0 1px 0 rgba(0,245,255,0.15);text-shadow:0 0 8px var(--cyan);}
+.enter-btn:hover{background:rgba(0,245,255,0.15);box-shadow:0 6px 30px rgba(0,245,255,0.2);transform:translateY(-1px);}
+
+/* ===================== GLOBE RADAR ===================== */
+.radar-wrap{display:flex;justify-content:center;padding:10px 16px 4px;position:relative;}
+.globe-radar{width:300px;height:300px;filter:drop-shadow(0 0 24px rgba(0,245,255,0.25));}
+.rsweep{transform-origin:150px 150px;animation:sweep 3s linear infinite;}
+@keyframes sweep{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.fdot{animation:fdotP 2s ease-in-out infinite;}
+@keyframes fdotP{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.rlabel{font-size:9px;fill:var(--cyan);font-family:'Share Tech Mono',monospace;}
+
+/* ===================== TIMETABLE ===================== */
+.timeline-wrap{padding:0 16px;}
+.day-tabs{display:flex;gap:6px;margin-bottom:12px;}
+.dtab{padding:6px 14px;border-radius:20px;border:1px solid rgba(0,245,255,0.15);background:rgba(0,245,255,0.03);font-size:9px;letter-spacing:2px;color:var(--dim);cursor:pointer;transition:all 0.2s;font-family:'Share Tech Mono',monospace;}
+.dtab.active,.dtab:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,245,255,0.09);text-shadow:0 0 6px var(--cyan);}
+.stage-col{margin-bottom:16px;}
+.stage-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:6px 10px;border-radius:8px;border-left:3px solid var(--stage-color,var(--cyan));}
+.stage-hdr-name{font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--stage-color,var(--cyan));}
+.set-row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;margin-bottom:5px;background:rgba(0,245,255,0.02);border:1px solid rgba(0,245,255,0.08);cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.set-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--stage-color,var(--cyan));border-radius:3px 0 0 3px;}
+.set-row:hover{background:rgba(0,245,255,0.06);border-color:rgba(0,245,255,0.2);transform:translateX(3px);}
+.set-row.now-playing{background:rgba(0,245,255,0.07);border-color:rgba(0,245,255,0.3);box-shadow:0 0 12px rgba(0,245,255,0.08);}
+.set-row.now-playing::after{content:'NOW';position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:8px;color:var(--green);letter-spacing:2px;animation:blink 1s infinite;}
+.set-time{font-size:11px;color:var(--cyan);min-width:42px;letter-spacing:1px;}
+.set-artist{flex:1;}
+.set-name{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:13px;letter-spacing:1px;}
+.set-genre{font-size:8px;color:var(--dim);letter-spacing:1px;margin-top:1px;}
+.set-fav{font-size:14px;cursor:pointer;transition:transform 0.2s;}
+.set-fav:hover{transform:scale(1.3);}
+.set-fav.active{filter:drop-shadow(0 0 4px gold);}
+
+/* ===================== MAP ===================== */
+.festival-map{margin:0 16px;border-radius:12px;border:1px solid rgba(0,245,255,0.18);overflow:hidden;position:relative;height:270px;background:#03080f;cursor:crosshair;box-shadow:0 4px 24px rgba(0,0,0,0.4),inset 0 1px 0 rgba(0,245,255,0.08);}
+.map-svg{width:100%;height:100%;}
+.map-ol{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);border:1px solid var(--green);border-radius:20px;padding:3px 12px;font-size:8px;color:var(--green);letter-spacing:2px;}
+.map-co{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);border:1px solid rgba(0,245,255,0.2);border-radius:8px;padding:3px 8px;font-size:7px;color:var(--dim);}
+.pin-ind{position:absolute;top:8px;left:50%;transform:translateX(-50%);background:rgba(0,245,255,0.1);backdrop-filter:blur(12px);border:1px solid rgba(0,245,255,0.35);border-radius:20px;padding:4px 14px;font-size:8px;color:var(--cyan);letter-spacing:2px;white-space:nowrap;pointer-events:none;}
+
+/* PIN BUTTONS */
+.pin-sel{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px;}
+.ptype{padding:5px 10px;border-radius:20px;border:1px solid rgba(0,245,255,0.18);background:rgba(0,245,255,0.03);backdrop-filter:blur(8px);font-size:9px;letter-spacing:1px;color:var(--dim);cursor:pointer;transition:all 0.2s;font-family:'Share Tech Mono',monospace;}
+.ptype:hover{border-color:rgba(0,245,255,0.4);color:var(--cyan);}
+.ptype.ap{background:rgba(0,245,255,0.1);border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,245,255,0.15);text-shadow:0 0 5px var(--cyan);}
+
+/* PIN LIST */
+.pli{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,245,255,0.05);animation:slideIn 0.3s ease-out;}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
+.mbtn{padding:3px 8px;border-radius:4px;font-size:7px;letter-spacing:1px;cursor:pointer;font-family:'Share Tech Mono',monospace;transition:all 0.15s;border:1px solid;}
+.cb{background:rgba(0,245,255,0.07);border-color:rgba(0,245,255,0.28);color:var(--cyan);}
+.rb{background:rgba(255,34,68,0.07);border-color:rgba(255,34,68,0.28);color:var(--red);}
+.cb:hover{background:rgba(0,245,255,0.16);}
+.rb:hover{background:rgba(255,34,68,0.16);}
+
+/* SQUAD */
+.smember{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,245,255,0.06);}
+.savatar{width:38px;height:38px;border-radius:50%;border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--cyan);text-shadow:0 0 8px var(--cyan);box-shadow:0 0 12px rgba(0,245,255,0.18);flex-shrink:0;background:rgba(0,245,255,0.04);}
+.sinfo{flex:1;}
+.sname{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:14px;letter-spacing:1px;}
+.sloc{font-size:9px;color:var(--dim);margin-top:2px;}
+.sstatus{font-size:8px;letter-spacing:2px;padding:2px 8px;border-radius:3px;}
+.sa{background:rgba(0,255,136,0.08);border:1px solid var(--green);color:var(--green);}
+.sl{background:rgba(255,136,0,0.08);border:1px solid var(--orange);color:var(--orange);animation:blink 1s infinite;}
+
+/* PING BTN */
+.pbtn{width:calc(100% - 32px);margin:0 16px 12px;padding:14px;border-radius:12px;border:1px solid rgba(0,245,255,0.38);background:rgba(0,245,255,0.06);backdrop-filter:blur(16px);color:var(--cyan);font-family:'Orbitron',monospace;font-size:11px;letter-spacing:3px;cursor:pointer;text-align:center;transition:all 0.2s;box-shadow:0 4px 20px rgba(0,245,255,0.07),inset 0 1px 0 rgba(0,245,255,0.13);text-shadow:0 0 8px var(--cyan);}
+.pbtn:hover{background:rgba(0,245,255,0.13);box-shadow:0 6px 28px rgba(0,245,255,0.18);transform:translateY(-1px);}
+
+/* LANDMARK BTN */
+.lbtn{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid rgba(0,245,255,0.12);border-radius:10px;background:rgba(0,245,255,0.025);backdrop-filter:blur(10px);cursor:pointer;margin-bottom:8px;transition:all 0.2s;font-size:10px;letter-spacing:1px;box-shadow:inset 0 1px 0 rgba(0,245,255,0.05);}
+.lbtn:hover{border-color:var(--cyan);background:rgba(0,245,255,0.07);box-shadow:0 0 16px rgba(0,245,255,0.1);transform:translateX(3px);}
+
+/* CHECKLIST */
+.ci{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,245,255,0.05);cursor:pointer;transition:all 0.15s;}
+.ci:hover{background:rgba(0,245,255,0.02);}
+.cbox{width:18px;height:18px;border:1px solid rgba(0,245,255,0.25);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;font-size:10px;}
+.cbox.chk{background:rgba(0,255,136,0.09);border-color:var(--green);color:var(--green);}
+.ctxt{font-size:11px;letter-spacing:0.5px;}
+.ctxt.dn{text-decoration:line-through;color:var(--dim);}
+
+/* SOS */
+.sosbtn{width:160px;height:160px;border-radius:50%;border:2px solid var(--red);background:radial-gradient(circle,rgba(255,34,68,0.18),rgba(255,34,68,0.04));display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-family:'Orbitron',monospace;font-size:30px;font-weight:900;color:var(--red);text-shadow:0 0 20px var(--red);box-shadow:0 0 40px rgba(255,34,68,0.25),inset 0 0 20px rgba(255,34,68,0.08);transition:all 0.2s;animation:sosp 2.5s ease-in-out infinite;letter-spacing:3px;margin:0 auto;}
+.sosbtn:hover{box-shadow:0 0 70px rgba(255,34,68,0.55);transform:scale(1.06);}
+.sossub{font-size:8px;letter-spacing:3px;margin-top:4px;}
+@keyframes sosp{0%,100%{box-shadow:0 0 40px rgba(255,34,68,0.25),inset 0 0 20px rgba(255,34,68,0.08);}50%{box-shadow:0 0 65px rgba(255,34,68,0.45),inset 0 0 30px rgba(255,34,68,0.13);}}
+
+/* STAT ROW */
+.sr{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(0,245,255,0.05);}
+.sr:last-child{border-bottom:none;}
+.sv{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:2px;}
+.vc{color:var(--cyan);text-shadow:0 0 5px var(--cyan);}
+.vg{color:var(--green);text-shadow:0 0 5px var(--green);}
+.vo{color:var(--orange);text-shadow:0 0 5px var(--orange);}
+.vr{color:var(--red);text-shadow:0 0 5px var(--red);}
+
+/* AGGRO */
+.aneedle{transform-origin:140px 130px;animation:needleA 4s ease-in-out infinite alternate;}
+@keyframes needleA{from{transform:rotate(-68deg);}to{transform:rotate(52deg);}}
+
+/* VIBE CARD */
+.vcard{margin:0 16px 12px;border-radius:12px;border:1px solid rgba(255,0,255,0.28);background:rgba(255,0,255,0.05);backdrop-filter:blur(20px);padding:14px;position:relative;overflow:hidden;box-shadow:0 8px 30px rgba(255,0,255,0.09),inset 0 1px 0 rgba(255,0,255,0.13);}
+.vcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,0,255,0.45),transparent);}
+.vtag{padding:2px 10px;border-radius:3px;font-size:8px;letter-spacing:2px;font-family:'Orbitron',monospace;}
+.tc{background:rgba(0,245,255,0.08);border:1px solid var(--cyan);color:var(--cyan);}
+.tm{background:rgba(255,0,255,0.08);border:1px solid var(--magenta);color:var(--magenta);}
+.to{background:rgba(255,136,0,0.08);border:1px solid var(--orange);color:var(--orange);}
+.prog{height:3px;background:rgba(0,245,255,0.08);border-radius:2px;overflow:hidden;margin-top:6px;}
+.progf{height:100%;background:linear-gradient(90deg,var(--cyan),var(--magenta));box-shadow:0 0 6px var(--cyan);}
+.playbtn{width:42px;height:42px;border-radius:50%;background:rgba(0,245,255,0.08);border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--cyan);font-size:15px;transition:all 0.2s;box-shadow:0 0 12px rgba(0,245,255,0.18);}
+
+/* MODAL BACKDROP */
+#dj-modal { background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+
+/* LOADING BAR */
+.lbar{height:2px;background:rgba(0,245,255,0.08);overflow:hidden;}
+.lfill{height:100%;background:linear-gradient(90deg,transparent,var(--cyan),transparent);animation:lscroll 2s linear infinite;width:55%;}
+@keyframes lscroll{from{transform:translateX(-100%);}to{transform:translateX(280%);}}
+/* ── IFRAME EMBED OVERRIDES ─────────────────────────────────
+   Strip the standalone phone shell so the content fills the
+   iframe viewport cleanly. DemoPage.tsx provides the outer frame.
+   ──────────────────────────────────────────────────────────── */
+html{height:100%;overflow:hidden;}
+body{height:100%;min-height:unset;overflow:hidden;}
+.app-wrapper{padding:0;height:100%;min-height:unset;justify-content:stretch;align-items:stretch;}
+.phone{width:100%;height:100%;min-height:unset;border-radius:0;border:none;box-shadow:none;background:var(--bg);}
+</style>
+</head>
+<body>
+<div class="bg-orbs"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+
+<div class="app-wrapper">
+<div class="phone">
+
+<!-- STATUS BAR -->
+<div class="sbar">
+  <span class="gtitle">TRAVEL RAVERS</span>
+  <div class="batt">
+    <span style="font-size:9px;color:var(--dim)">NO SIG</span>
+    <span>🔋84%</span>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: FESTIVAL SELECT ══════════════ -->
+<div class="screen" id="screen-select">
+  <div class="scroll">
+    <div class="shead">
+      <div><div class="stitle">SELECT EVENT</div><div class="ssub">TAP YOUR FESTIVAL // OFFLINE DATA LOADS</div></div>
+      <div class="obadge"><div class="odot"></div>READY</div>
+    </div>
+
+    <!-- Search/filter row -->
+    <div style="padding:0 16px 12px;">
+      <div style="display:flex;gap:6px;">
+        <div class="ptype ap" onclick="filterFests('all',this)">ALL</div>
+        <div class="ptype" onclick="filterFests('uk',this)">🇬🇧 UK</div>
+        <div class="ptype" onclick="filterFests('eu',this)">🌍 EU</div>
+        <div class="ptype" onclick="filterFests('carnival',this)">🎪 CARNIVAL</div>
+        <div class="ptype" onclick="filterFests('concert',this)">🎤 CONCERT</div>
+      </div>
+    </div>
+
+    <div class="fest-grid" id="fest-grid">
+      <!-- UK Festivals -->
+      <div class="fest-card selected" data-cat="uk" data-id="creamfields" onclick="selectFest(this)" style="--accent:var(--cyan)">
+        <div class="fest-emoji">🏟️</div>
+        <div class="fest-name">CREAMFIELDS</div>
+        <div class="fest-info">Aug 27–30 · Daresbury, Cheshire<br>EDM · Techno · Trance</div>
+        <div class="fest-cap" style="color:var(--cyan)">80,000 RAVERS</div>
+      </div>
+      <div class="fest-card" data-cat="uk" data-id="terminalv" onclick="selectFest(this)" style="--accent:var(--magenta)">
+        <div class="fest-emoji">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div>
+        <div class="fest-name">TERMINAL V</div>
+        <div class="fest-info">Apr 18–19 · Edinburgh<br>Techno · Hard Techno</div>
+        <div class="fest-cap" style="color:var(--magenta)">40,000 RAVERS</div>
+      </div>
+      <div class="fest-card" data-cat="uk" data-id="parklife" onclick="selectFest(this)" style="--accent:var(--green)">
+        <div class="fest-emoji">🌳</div>
+        <div class="fest-name">PARKLIFE</div>
+        <div class="fest-info">Jun 20–21 · Manchester<br>House · Garage · Grime</div>
+        <div class="fest-cap" style="color:var(--green)">160,000 RAVERS</div>
+      </div>
+      <div class="fest-card" data-cat="uk" data-id="glastonbury" onclick="selectFest(this)" style="--accent:var(--yellow)">
+        <div class="fest-emoji">⛺</div>
+        <div class="fest-name">GLASTONBURY</div>
+        <div class="fest-info">Jun 25–29 · Somerset<br>Multi-Genre</div>
+        <div class="fest-cap" style="color:var(--yellow)">200,000 RAVERS</div>
+      </div>
+      <div class="fest-card" data-cat="carnival" data-id="notting" onclick="selectFest(this)" style="--accent:var(--orange)">
+        <div class="fest-emoji">🎺</div>
+        <div class="fest-name">NOTTING HILL</div>
+        <div class="fest-info">Aug 24–25 · London<br>Carnival · Reggae · Soca</div>
+        <div class="fest-cap" style="color:var(--orange)">2,000,000 PEOPLE</div>
+      </div>
+      <div class="fest-card" data-cat="eu" data-id="tomorrowland" onclick="selectFest(this)" style="--accent:var(--magenta)">
+        <div class="fest-emoji">🌐</div>
+        <div class="fest-name">TOMORROWLAND</div>
+        <div class="fest-info">Jul 17–26 · Belgium<br>EDM · Trance · House</div>
+        <div class="fest-cap" style="color:var(--magenta)">400,000 RAVERS</div>
+      </div>
+      <div class="fest-card" data-cat="concert" data-id="o2arena" onclick="selectFest(this)" style="--accent:var(--cyan)">
+        <div class="fest-emoji">🎤</div>
+        <div class="fest-name">O2 ARENA</div>
+        <div class="fest-info">London · Concerts<br>Any Artist Event</div>
+        <div class="fest-cap" style="color:var(--cyan)">20,000 CAPACITY</div>
+      </div>
+      <div class="fest-card" data-cat="uk" data-id="houghton" onclick="selectFest(this)" style="--accent:var(--green)">
+        <div class="fest-emoji">🌲</div>
+        <div class="fest-name">HOUGHTON</div>
+        <div class="fest-info">Aug 6–9 · Norfolk<br>Techno · House · Experimental</div>
+        <div class="fest-cap" style="color:var(--green)">10,000 RAVERS</div>
+      </div>
+    </div>
+
+    <button class="enter-btn" onclick="enterFestival()">⚡ ENTER FESTIVAL // LOAD MAP</button>
+
+    <div class="panel">
+      <div class="ptitle">CUSTOM EVENT // ADD YOUR OWN</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input id="custom-event" placeholder="TYPE EVENT NAME..." style="flex:1;background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.2);border-radius:8px;padding:10px;color:var(--cyan);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;outline:none;"/>
+        <button class="mbtn cb" style="padding:10px 14px;font-size:9px;" onclick="addCustomEvent()">+ ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: RADAR ══════════════ -->
+<div class="screen active" id="screen-radar">
+  <div class="scroll">
+    <div class="shead">
+      <div><div class="stitle" id="radar-fest-name">SQUAD RADAR</div><div class="ssub" id="radar-fest-sub">SNEAKERNET MESH // ACTIVE</div></div>
+      <div class="obadge"><div class="odot"></div>OFFLINE</div>
+    </div>
+
+    <!-- GLOBE RADAR -->
+    <div class="radar-wrap">
+      <svg class="globe-radar" viewBox="0 0 300 300">
+        <defs>
+          <radialGradient id="globeGrad" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="rgba(0,245,255,0.06)"/>
+            <stop offset="70%" stop-color="rgba(0,245,255,0.02)"/>
+            <stop offset="100%" stop-color="rgba(0,245,255,0.08)"/>
+          </radialGradient>
+          <radialGradient id="sweepGrad" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="rgba(0,245,255,0)"/>
+            <stop offset="60%" stop-color="rgba(0,245,255,0.15)"/>
+            <stop offset="100%" stop-color="rgba(0,245,255,0.35)"/>
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Globe sphere base -->
+        <circle cx="150" cy="150" r="128" fill="url(#globeGrad)" stroke="rgba(0,245,255,0.25)" stroke-width="1.5"/>
+
+        <!-- Globe latitude lines (horizontal) -->
+        <ellipse cx="150" cy="150" rx="128" ry="30" fill="none" stroke="rgba(0,245,255,0.08)" stroke-width="0.8"/>
+        <ellipse cx="150" cy="150" rx="128" ry="65" fill="none" stroke="rgba(0,245,255,0.07)" stroke-width="0.8"/>
+        <ellipse cx="150" cy="150" rx="128" ry="100" fill="none" stroke="rgba(0,245,255,0.06)" stroke-width="0.8"/>
+        <ellipse cx="150" cy="120" rx="110" ry="22" fill="none" stroke="rgba(0,245,255,0.05)" stroke-width="0.8"/>
+        <ellipse cx="150" cy="180" rx="110" ry="22" fill="none" stroke="rgba(0,245,255,0.05)" stroke-width="0.8"/>
+
+        <!-- Globe longitude lines (vertical curves) -->
+        <path d="M150,22 Q200,150 150,278" fill="none" stroke="rgba(0,245,255,0.07)" stroke-width="0.8"/>
+        <path d="M150,22 Q100,150 150,278" fill="none" stroke="rgba(0,245,255,0.07)" stroke-width="0.8"/>
+        <path d="M150,22 Q240,100 278,150 Q240,200 150,278" fill="none" stroke="rgba(0,245,255,0.05)" stroke-width="0.8"/>
+        <path d="M150,22 Q60,100 22,150 Q60,200 150,278" fill="none" stroke="rgba(0,245,255,0.05)" stroke-width="0.8"/>
+
+        <!-- Range rings with glow -->
+        <circle cx="150" cy="150" r="100" fill="none" stroke="rgba(0,245,255,0.14)" stroke-width="1" filter="url(#glow)"/>
+        <circle cx="150" cy="150" r="70" fill="none" stroke="rgba(0,245,255,0.16)" stroke-width="1"/>
+        <circle cx="150" cy="150" r="40" fill="none" stroke="rgba(0,245,255,0.2)" stroke-width="1"/>
+
+        <!-- Cross hairs -->
+        <line x1="150" y1="22" x2="150" y2="278" stroke="rgba(0,245,255,0.1)" stroke-width="0.8"/>
+        <line x1="22" y1="150" x2="278" y2="150" stroke="rgba(0,245,255,0.1)" stroke-width="0.8"/>
+        <line x1="60" y1="60" x2="240" y2="240" stroke="rgba(0,245,255,0.05)" stroke-width="0.8"/>
+        <line x1="240" y1="60" x2="60" y2="240" stroke="rgba(0,245,255,0.05)" stroke-width="0.8"/>
+
+        <!-- Sweep -->
+        <g class="rsweep">
+          <path d="M150,150 L150,22 A128,128 0 0,1 240,68 Z" fill="url(#sweepGrad)" opacity="0.7"/>
+          <line x1="150" y1="150" x2="150" y2="22" stroke="rgba(0,245,255,0.6)" stroke-width="1.5" filter="url(#glow)"/>
+        </g>
+
+        <!-- Compass -->
+        <text x="147" y="16" class="rlabel" font-size="11" font-weight="bold">N</text>
+        <text x="147" y="292" class="rlabel" font-size="11" font-weight="bold">S</text>
+        <text x="8" y="154" class="rlabel" font-size="11" font-weight="bold">W</text>
+        <text x="272" y="154" class="rlabel" font-size="11" font-weight="bold">E</text>
+
+        <!-- Range labels -->
+        <text x="152" y="108" class="rlabel" font-size="8" fill="rgba(0,245,255,0.4)">500m</text>
+        <text x="152" y="138" class="rlabel" font-size="8" fill="rgba(0,245,255,0.35)">200m</text>
+
+        <!-- YOU - centre -->
+        <circle cx="150" cy="150" r="6" fill="var(--cyan)" opacity="0.95" filter="url(#glow)"/>
+        <circle cx="150" cy="150" r="11" fill="none" stroke="var(--cyan)" stroke-width="1.5" opacity="0.5"/>
+        <circle cx="150" cy="150" r="20" fill="none" stroke="var(--cyan)" stroke-width="0.8" opacity="0.2">
+          <animate attributeName="r" values="12;26;12" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.4;0;0.4" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <text x="158" y="144" class="rlabel" font-size="8" fill="var(--cyan)">YOU</text>
+
+        <!-- SARAH NE 400m -->
+        <circle class="fdot" cx="210" cy="82" r="6" fill="var(--magenta)" filter="url(#glow)"/>
+        <circle cx="210" cy="82" r="11" fill="none" stroke="var(--magenta)" stroke-width="1" opacity="0.4"/>
+        <text x="218" y="78" class="rlabel" font-size="8" fill="var(--magenta)">SARAH</text>
+        <text x="218" y="88" class="rlabel" font-size="7" fill="var(--dim)">400m NE</text>
+        <line x1="150" y1="150" x2="210" y2="82" stroke="var(--magenta)" stroke-width="0.8" stroke-dasharray="4,4" opacity="0.35"/>
+
+        <!-- MIKE S 150m -->
+        <circle class="fdot" cx="162" cy="198" r="6" fill="var(--green)" filter="url(#glow)" style="animation-delay:0.8s"/>
+        <circle cx="162" cy="198" r="11" fill="none" stroke="var(--green)" stroke-width="1" opacity="0.35"/>
+        <text x="170" y="194" class="rlabel" font-size="8" fill="var(--green)">MIKE</text>
+        <text x="170" y="204" class="rlabel" font-size="7" fill="var(--dim)">150m S</text>
+        <line x1="150" y1="150" x2="162" y2="198" stroke="var(--green)" stroke-width="0.8" stroke-dasharray="4,4" opacity="0.3"/>
+
+        <!-- BASE CAMP W -->
+        <rect x="24" y="162" width="8" height="8" rx="1" fill="rgba(255,255,0,0.6)"/>
+        <text x="10" y="155" class="rlabel" font-size="7" fill="var(--yellow)">CAMP</text>
+        <text x="14" y="165" class="rlabel" font-size="7" fill="var(--dim)">800m W</text>
+
+        <!-- Medical -->
+        <rect x="218" y="195" width="10" height="10" rx="2" fill="rgba(255,34,68,0.7)" filter="url(#glow)"/>
+        <text x="215" y="192" class="rlabel" font-size="7" fill="var(--red)">MED</text>
+
+        <!-- Outer glow ring -->
+        <circle cx="150" cy="150" r="128" fill="none" stroke="rgba(0,245,255,0.3)" stroke-width="1" filter="url(#glow)"/>
+      </svg>
+    </div>
+
+    <div class="lbar"><div class="lfill"></div></div>
+    <div style="text-align:center;font-size:8px;color:var(--dim);letter-spacing:2px;margin-bottom:10px;">MESH ACTIVE // 3 NODES // SNEAKERNET PROTOCOL</div>
+
+    <!-- Squad -->
+    <div class="panel">
+      <div class="ptitle">SQUAD STATUS</div>
+      <div class="smember">
+        <div class="savatar">S</div>
+        <div class="sinfo">
+          <div class="sname">SARAH</div>
+          <div class="sloc">📍 TECHNO DOME // 400m NE // 2min ago</div>
+        </div>
+        <div class="sstatus sa">ACTIVE</div>
+      </div>
+      <div class="smember">
+        <div class="savatar" style="border-color:var(--green);color:var(--green);">M</div>
+        <div class="sinfo">
+          <div class="sname">MIKE</div>
+          <div class="sloc">📍 MAIN STAGE // 150m S // 1min ago</div>
+        </div>
+        <div class="sstatus sa">ACTIVE</div>
+      </div>
+      <div class="smember">
+        <div class="savatar" style="border-color:var(--orange);color:var(--orange);">J</div>
+        <div class="sinfo">
+          <div class="sname">JESS</div>
+          <div class="sloc">⚠️ LAST SEEN ACID ARENA // 22min ago</div>
+        </div>
+        <div class="sstatus sl">LOST</div>
+      </div>
+    </div>
+
+    <button class="pbtn" onclick="pingLoc(event)">📡 PING MY LOCATION</button>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: MAP ══════════════ -->
+<div class="screen" id="screen-map">
+  <div class="scroll">
+    <div class="shead">
+      <div><div class="stitle" id="map-fest-name">FIELD OPS MAP</div><div class="ssub" id="map-fest-sub">CREAMFIELDS 2026 // OFFLINE READY</div></div>
+      <div class="obadge"><div class="odot"></div>GPS ON</div>
+    </div>
+
+    <!-- Pin type selector -->
+    <div style="padding:0 16px 8px;font-size:8px;color:var(--dim);letter-spacing:2px;margin-bottom:4px;">DROP A PIN // TAP TYPE → TAP MAP</div>
+    <div class="pin-sel" id="pin-sel">
+      <div class="ptype ap" data-type="tent" data-emoji="⛺" data-color="#00f5ff" onclick="selPin(this)">⛺ MY TENT</div>
+      <div class="ptype" data-type="toilet" data-emoji="🚽" data-color="#00ff88" onclick="selPin(this)">🚽 TOILET</div>
+      <div class="ptype" data-type="water" data-emoji="💧" data-color="#4488ff" onclick="selPin(this)">💧 WATER</div>
+      <div class="ptype" data-type="food" data-emoji="🍕" data-color="#ff8800" onclick="selPin(this)">🍕 FOOD</div>
+      <div class="ptype" data-type="charge" data-emoji="⚡" data-color="#ffff00" onclick="selPin(this)">⚡ CHARGE</div>
+      <div class="ptype" data-type="meet" data-emoji="📍" data-color="#ff00ff" onclick="selPin(this)">📍 MEET</div>
+    </div>
+
+    <!-- Map -->
+    <div class="festival-map" id="map-container">
+      <svg id="map-svg" class="map-svg" viewBox="0 0 358 270" onclick="dropPin(event)">
+        <rect width="358" height="270" fill="#030810"/>
+        <!-- Grid -->
+        <line x1="0" y1="67" x2="358" y2="67" stroke="rgba(0,245,255,0.03)" stroke-width="1"/>
+        <line x1="0" y1="135" x2="358" y2="135" stroke="rgba(0,245,255,0.03)" stroke-width="1"/>
+        <line x1="0" y1="202" x2="358" y2="202" stroke="rgba(0,245,255,0.03)" stroke-width="1"/>
+        <line x1="90" y1="0" x2="90" y2="270" stroke="rgba(0,245,255,0.03)" stroke-width="1"/>
+        <line x1="179" y1="0" x2="179" y2="270" stroke="rgba(0,245,255,0.03)" stroke-width="1"/>
+        <line x1="268" y1="0" x2="268" y2="270" stroke="rgba(0,245,255,0.03)" stroke-width="1"/>
+        <!-- Perimeter -->
+        <rect x="10" y="10" width="338" height="250" rx="8" fill="none" stroke="rgba(0,245,255,0.1)" stroke-width="1" stroke-dasharray="6,4"/>
+        <!-- Paths -->
+        <path d="M68,128 L168,128 L168,152 L198,152 L198,198" stroke="rgba(255,255,255,0.05)" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M168,128 L238,98 L293,98" stroke="rgba(255,255,255,0.05)" stroke-width="9" fill="none" stroke-linecap="round"/>
+        <path d="M168,128 L168,52 L198,38" stroke="rgba(255,255,255,0.04)" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <!-- Stages -->
+        <rect x="18" y="78" width="88" height="52" rx="6" fill="rgba(0,245,255,0.06)" stroke="var(--cyan)" stroke-width="1.5"/>
+        <rect x="18" y="78" width="88" height="9" rx="6" fill="rgba(0,245,255,0.18)"/>
+        <text x="62" y="100" fill="var(--cyan)" text-anchor="middle" font-size="9" font-family="Share Tech Mono" font-weight="bold">MAIN STAGE</text>
+        <text x="62" y="114" fill="rgba(0,245,255,0.5)" text-anchor="middle" font-size="7" font-family="Share Tech Mono">CALVIN HARRIS 23:00</text>
+        <rect x="152" y="20" width="88" height="52" rx="6" fill="rgba(255,0,255,0.05)" stroke="var(--magenta)" stroke-width="1.5"/>
+        <rect x="152" y="20" width="88" height="9" rx="6" fill="rgba(255,0,255,0.18)"/>
+        <text x="196" y="42" fill="var(--magenta)" text-anchor="middle" font-size="9" font-family="Share Tech Mono" font-weight="bold">TECHNO DOME</text>
+        <text x="196" y="56" fill="rgba(255,0,255,0.5)" text-anchor="middle" font-size="7" font-family="Share Tech Mono">CHARLOTTE 00:00</text>
+        <rect x="255" y="72" width="90" height="52" rx="6" fill="rgba(255,136,0,0.05)" stroke="var(--orange)" stroke-width="1.5"/>
+        <rect x="255" y="72" width="90" height="9" rx="6" fill="rgba(255,136,0,0.18)"/>
+        <text x="300" y="94" fill="var(--orange)" text-anchor="middle" font-size="9" font-family="Share Tech Mono" font-weight="bold">ACID ARENA</text>
+        <text x="300" y="108" fill="rgba(255,136,0,0.5)" text-anchor="middle" font-size="7" font-family="Share Tech Mono">HAWTIN 01:00</text>
+        <rect x="100" y="145" width="74" height="40" rx="6" fill="rgba(0,255,136,0.04)" stroke="var(--green)" stroke-width="1"/>
+        <text x="137" y="163" fill="var(--green)" text-anchor="middle" font-size="8" font-family="Share Tech Mono">HALO STAGE</text>
+        <text x="137" y="176" fill="rgba(0,255,136,0.4)" text-anchor="middle" font-size="7" font-family="Share Tech Mono">SARA LANDRY 02:00</text>
+        <!-- Campsites -->
+        <rect x="18" y="198" width="108" height="58" rx="6" fill="rgba(255,255,80,0.02)" stroke="rgba(255,255,80,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="72" y="223" fill="rgba(255,255,80,0.5)" text-anchor="middle" font-size="8" font-family="Share Tech Mono">CAMPSITE A</text>
+        <rect x="140" y="198" width="100" height="58" rx="6" fill="rgba(255,255,80,0.02)" stroke="rgba(255,255,80,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="190" y="223" fill="rgba(255,255,80,0.45)" text-anchor="middle" font-size="8" font-family="Share Tech Mono">CAMPSITE B</text>
+        <rect x="254" y="198" width="92" height="58" rx="6" fill="rgba(255,255,80,0.02)" stroke="rgba(255,255,80,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="300" y="223" fill="rgba(255,255,80,0.45)" text-anchor="middle" font-size="8" font-family="Share Tech Mono">CAMPSITE C</text>
+        <!-- Medical -->
+        <rect x="20" y="158" width="46" height="26" rx="4" fill="rgba(255,34,68,0.1)" stroke="var(--red)" stroke-width="1.5"/>
+        <text x="43" y="170" fill="var(--red)" text-anchor="middle" font-size="8" font-family="Share Tech Mono">✚ MED 01</text>
+        <text x="43" y="180" fill="rgba(255,34,68,0.45)" text-anchor="middle" font-size="6" font-family="Share Tech Mono">24HR</text>
+        <rect x="290" y="145" width="55" height="26" rx="4" fill="rgba(255,34,68,0.1)" stroke="var(--red)" stroke-width="1.5"/>
+        <text x="317" y="157" fill="var(--red)" text-anchor="middle" font-size="8" font-family="Share Tech Mono">✚ MED 02</text>
+        <!-- Water fixed -->
+        <circle cx="238" cy="162" r="13" fill="rgba(0,80,255,0.1)" stroke="#4488ff" stroke-width="1.5"/>
+        <text x="238" y="166" fill="#4488ff" text-anchor="middle" font-size="10">💧</text>
+        <!-- You -->
+        <circle cx="168" cy="128" r="5" fill="var(--cyan)" opacity="0.95"/>
+        <circle cx="168" cy="128" r="9" fill="none" stroke="var(--cyan)" stroke-width="1.5" opacity="0.55"/>
+        <circle cx="168" cy="128" r="18" fill="none" stroke="var(--cyan)" stroke-width="0.8" opacity="0.2">
+          <animate attributeName="r" values="10;22;10" dur="2.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.4;0;0.4" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <text x="176" y="122" fill="var(--cyan)" font-size="7" font-family="Share Tech Mono">YOU</text>
+        <!-- Squad dots -->
+        <circle cx="212" cy="52" r="5" fill="var(--magenta)" opacity="0.85"/>
+        <text x="219" y="49" fill="var(--magenta)" font-size="7" font-family="Share Tech Mono">SARAH</text>
+        <circle cx="108" cy="113" r="5" fill="var(--green)" opacity="0.85"/>
+        <text x="115" y="110" fill="var(--green)" font-size="7" font-family="Share Tech Mono">MIKE</text>
+        <!-- User pins layer -->
+        <g id="user-pins"></g>
+        <text x="12" y="267" fill="rgba(0,245,255,0.25)" font-size="6" font-family="Share Tech Mono">LAT: 53.3498 // LNG: -2.7280 // TAP TO DROP PIN</text>
+      </svg>
+      <div class="map-ol">⬤ OFFLINE READY</div>
+      <div class="map-co" id="map-co">CREAMFIELDS 2026</div>
+      <div class="pin-ind" id="pin-ind">⛺ TAP MAP TO PIN YOUR TENT</div>
+    </div>
+
+    <!-- Pins list -->
+    <div class="panel" style="margin-top:12px;">
+      <div class="ptitle">SQUAD PINS // LIVE FEED</div>
+      <div id="pins-list">
+        <div class="pli" id="pli-demo1">
+          <span style="font-size:17px;">⛺</span>
+          <div style="flex:1;"><div style="font-size:10px;color:var(--cyan);">MY TENT</div><div style="font-size:8px;color:var(--dim);">YOU // 2 mins ago // CAMPSITE A</div></div>
+          <div style="display:flex;gap:5px;">
+            <button class="mbtn cb" onclick="broadcastPin(event,'⛺','MY TENT')">📡 SHARE</button>
+            <button class="mbtn rb" onclick="rmPin('demo1')">✕</button>
+          </div>
+        </div>
+      </div>
+      <div id="no-pins" style="display:none;font-size:9px;color:var(--dim);text-align:center;padding:10px;letter-spacing:1px;">NO PINS YET // TAP MAP ABOVE</div>
+    </div>
+
+    <!-- Meet me -->
+    <div class="panel">
+      <div class="ptitle">MEET ME HERE // BROADCAST</div>
+      <div class="lbtn" onclick="meetMe('MAIN STAGE')"><span style="font-size:17px;">🎵</span><span style="flex:1;">MAIN STAGE ENTRANCE</span><span style="color:var(--dim);font-size:11px;">→</span></div>
+      <div class="lbtn" onclick="meetMe('MEDICAL TENT 01')"><span style="font-size:17px;">🏥</span><span style="flex:1;">MEDICAL TENT 01</span><span style="color:var(--dim);font-size:11px;">→</span></div>
+      <div class="lbtn" onclick="meetMe('WATER POINT')"><span style="font-size:17px;">💧</span><span style="flex:1;">CENTRAL WATER POINT</span><span style="color:var(--dim);font-size:11px;">→</span></div>
+      <div class="lbtn" onclick="meetMe('BASE CAMP')"><span style="font-size:17px;">⛺</span><span style="flex:1;">BASE CAMP // TENT ZONE A</span><span style="color:var(--dim);font-size:11px;">→</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: TIMETABLE ══════════════ -->
+<div class="screen" id="screen-time">
+  <div class="scroll">
+    <div class="shead">
+      <div><div class="stitle">TIMETABLE</div><div class="ssub" id="tt-fest-sub">CREAMFIELDS 2026 // ALL STAGES</div></div>
+      <div class="obadge"><div class="odot"></div>OFFLINE</div>
+    </div>
+
+    <div class="timeline-wrap">
+      <!-- Day tabs -->
+      <div class="day-tabs">
+        <div class="dtab active" onclick="switchDay('thu',this)">THU 27</div>
+        <div class="dtab" onclick="switchDay('fri',this)">FRI 28</div>
+        <div class="dtab" onclick="switchDay('sat',this)">SAT 29</div>
+        <div class="dtab" onclick="switchDay('sun',this)">SUN 30</div>
+      </div>
+
+      <!-- Stages + sets -->
+      <div id="timetable-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: KIT CHECKLIST ══════════════ -->
+<div class="screen" id="screen-check">
+  <div class="scroll">
+    <div class="shead">
+      <div><div class="stitle">MISSION KIT</div><div class="ssub">PRE-FESTIVAL CHECKLIST // TAP TO CHECK</div></div>
+    </div>
+    <div class="panel">
+      <div class="ptitle">ESSENTIALS // CRITICAL</div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox chk">✓</div><span class="ctxt dn">Festival wristband activated</span></div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox chk">✓</div><span class="ctxt dn">Phone fully charged (100%)</span></div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox chk">✓</div><span class="ctxt dn">Offline map downloaded</span></div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox"></div><span class="ctxt">Power bank packed</span></div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox"></div><span class="ctxt">Squad meeting point agreed</span></div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox"></div><span class="ctxt">Emergency contact set in app</span></div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox"></div><span class="ctxt">Ear plugs packed</span></div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox"></div><span class="ctxt">Cash + card (cashless backup)</span></div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox"></div><span class="ctxt">Rain poncho packed</span></div>
+      <div class="ci" onclick="togCheck(this)"><div class="cbox"></div><span class="ctxt">Tent pegs + mallet</span></div>
+    </div>
+    <div class="panel">
+      <div class="ptitle">MEDICAL // KNOW BEFORE YOU GO</div>
+      <div class="sr"><span style="font-size:10px;">🏥 Medical Tent 01</span><span class="sv vg">NEAR MAIN STAGE</span></div>
+      <div class="sr"><span style="font-size:10px;">🏥 Medical Tent 02</span><span class="sv vg">NEAR ACID ARENA</span></div>
+      <div class="sr"><span style="font-size:10px;">📞 Site Security</span><span class="sv vc">07700 000 999</span></div>
+      <div class="sr"><span style="font-size:10px;">💧 Free Water</span><span class="sv vc">CENTRAL PLAZA + HALO</span></div>
+    </div>
+    <div class="panel">
+      <div class="ptitle">HARM REDUCTION // STAY SAFE</div>
+      <div style="font-size:10px;line-height:2;color:var(--text);">
+        ⚡ Stay hydrated — 500ml per hour<br>
+        👥 Never leave a friend alone<br>
+        🌡️ Cool down zone near Med Tent 01<br>
+        📵 No signal = use this app's SOS<br>
+        🔴 Someone struggling? Hit SOS now
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCREEN: SOS ══════════════ -->
+<div class="screen" id="screen-sos">
+  <div class="scroll">
+    <div class="shead">
+      <div><div class="stitle" style="color:var(--red);text-shadow:0 0 10px var(--red);">EMERGENCY SOS</div><div class="ssub">MESH BROADCAST // ALL NEARBY USERS</div></div>
+    </div>
+    <div id="sos-norm" style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:16px;">
+      <div style="text-align:center;font-size:9px;color:var(--dim);letter-spacing:2px;line-height:2;">HOLD 3 SECONDS // BROADCASTS VIA MESH<br>NO SIGNAL REQUIRED // ALL NEARBY PHONES</div>
+      <div style="position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;width:190px;height:190px;border-radius:50%;border:1px solid rgba(255,34,68,0.25);animation:sosp 2s ease-out infinite;"></div>
+        <div style="position:absolute;width:190px;height:190px;border-radius:50%;border:1px solid rgba(255,34,68,0.18);animation:sosp 2s ease-out infinite 0.7s;"></div>
+        <button class="sosbtn" onclick="trigSOS()">SOS<span class="sossub">HOLD 3s</span></button>
+      </div>
+      <div class="panel" style="width:100%;margin:0;">
+        <div class="ptitle">WHAT HAPPENS</div>
+        <div class="sr"><span style="font-size:9px;">📍 GPS coords broadcast instantly</span></div>
+        <div class="sr"><span style="font-size:9px;">📡 Hops through all nearby phones</span></div>
+        <div class="sr"><span style="font-size:9px;">🔴 Squad alerted immediately</span></div>
+        <div class="sr"><span style="font-size:9px;">🏥 Medical teams notified</span></div>
+      </div>
+      <button class="pbtn" style="background:rgba(0,255,136,0.06);border-color:rgba(0,255,136,0.35);color:var(--green);" onclick="sendOkay()">✅ BROADCAST I'M OKAY</button>
+    </div>
+    <div id="sos-sent" style="display:none;flex-direction:column;align-items:center;gap:16px;padding:30px 16px;text-align:center;">
+      <div style="font-family:'Orbitron',monospace;font-size:22px;color:var(--red);text-shadow:0 0 20px var(--red);letter-spacing:4px;animation:blink 0.5s infinite;">SOS SENT</div>
+      <div style="position:relative;width:160px;height:160px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;width:160px;height:160px;border-radius:50%;border:2px solid var(--red);animation:sosp 1s ease-out infinite;"></div>
+        <div style="position:absolute;width:160px;height:160px;border-radius:50%;border:2px solid var(--red);animation:sosp 1s ease-out infinite 0.35s;"></div>
+        <div style="width:60px;height:60px;background:rgba(255,34,68,0.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;">🆘</div>
+      </div>
+      <div style="font-size:10px;color:var(--text);line-height:2.2;letter-spacing:1px;">YOUR LOCATION IS BROADCASTING<br><span style="color:var(--green);">GPS: 53.3498, -2.7280</span><br>MESH HOPS: <span style="color:var(--cyan);">7 NODES</span><br>SQUAD: <span style="color:var(--green);">✓ NOTIFIED</span></div>
+      <button class="pbtn" style="background:rgba(0,255,136,0.07);border-color:rgba(0,255,136,0.35);color:var(--green);" onclick="cancelSOS()">✓ I'M SAFE — CANCEL SOS</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV BAR -->
+<div class="nav">
+  <div class="ni" id="nav-select" onclick="goScreen('select')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    EVENTS
+  </div>
+  <div class="ni active" id="nav-radar" onclick="goScreen('radar')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="2" y1="12" x2="6" y2="12"/></svg>
+    RADAR
+  </div>
+  <div class="ni" id="nav-map" onclick="goScreen('map')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="3,6 9,3 15,6 21,3 21,18 15,21 9,18 3,21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+    MAP
+  </div>
+  <div class="ni" id="nav-time" onclick="goScreen('time')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    TIMES
+  </div>
+  <div class="ni" id="nav-check" onclick="goScreen('check')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    KIT
+  </div>
+  <div class="ni sos-nav" id="nav-sos" onclick="goScreen('sos')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    SOS
+  </div>
+</div>
+
+<!-- ══════════════ DJ VIBE MODAL ══════════════ -->
+<div id="dj-modal" style="display:none;position:absolute;inset:0;z-index:1000;overflow-y:auto;scrollbar-width:none;" onclick="closeDJModal(event)">
+  <div id="dj-modal-inner" style="min-height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:20px 16px 16px;">
+    <div id="dj-card" style="border-radius:20px;border:1px solid rgba(0,245,255,0.25);background:rgba(3,8,20,0.96);backdrop-filter:blur(40px);box-shadow:0 -20px 60px rgba(0,0,0,0.7),inset 0 1px 0 rgba(0,245,255,0.15);overflow:hidden;" onclick="event.stopPropagation()">
+
+      <!-- Header bar -->
+      <div id="dj-header" style="height:4px;background:linear-gradient(90deg,var(--cyan),var(--magenta));"></div>
+
+      <!-- Close + title -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:16px 16px 0;">
+        <div>
+          <div id="dj-icon" style="font-size:36px;line-height:1;margin-bottom:6px;">🎧</div>
+          <div id="dj-name" style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 16px var(--cyan);"></div>
+          <div id="dj-origin" style="font-size:9px;color:var(--dim);letter-spacing:2px;margin-top:3px;"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+          <button onclick="closeDJModal()" style="background:rgba(0,245,255,0.08);border:1px solid rgba(0,245,255,0.2);border-radius:20px;color:var(--dim);padding:4px 12px;font-size:10px;cursor:pointer;font-family:'Share Tech Mono',monospace;letter-spacing:1px;">✕ CLOSE</button>
+          <div id="dj-since" style="font-size:8px;color:var(--dim);letter-spacing:1px;text-align:right;"></div>
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <div id="dj-tags" style="display:flex;flex-wrap:wrap;gap:5px;padding:12px 16px 0;"></div>
+
+      <!-- Bio -->
+      <div id="dj-bio" style="font-size:11px;color:var(--text);line-height:1.8;padding:12px 16px;border-bottom:1px solid rgba(0,245,255,0.07);letter-spacing:0.3px;"></div>
+
+      <!-- Stats grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(0,245,255,0.06);margin:0 16px;border-radius:10px;overflow:hidden;">
+        <div style="background:rgba(3,8,20,0.9);padding:10px;text-align:center;">
+          <div style="font-size:8px;color:var(--dim);letter-spacing:1px;margin-bottom:4px;">BPM</div>
+          <div id="dj-bpm" style="font-family:'Orbitron',monospace;font-size:11px;color:var(--cyan);"></div>
+        </div>
+        <div style="background:rgba(3,8,20,0.9);padding:10px;text-align:center;">
+          <div style="font-size:8px;color:var(--dim);letter-spacing:1px;margin-bottom:4px;">PEAK TIME</div>
+          <div id="dj-peak" style="font-family:'Orbitron',monospace;font-size:10px;color:var(--green);"></div>
+        </div>
+        <div style="background:rgba(3,8,20,0.9);padding:10px;text-align:center;">
+          <div style="font-size:8px;color:var(--dim);letter-spacing:1px;margin-bottom:4px;">CROWD</div>
+          <div id="dj-crowd" style="font-size:8px;color:var(--magenta);letter-spacing:0.5px;line-height:1.4;"></div>
+        </div>
+      </div>
+
+      <!-- Vibe meters -->
+      <div style="padding:14px 16px 10px;">
+        <div style="font-family:'Orbitron',monospace;font-size:8px;letter-spacing:3px;color:var(--cyan);margin-bottom:10px;text-shadow:0 0 6px rgba(0,245,255,0.4);">VIBE ANALYSIS // REAL-TIME</div>
+
+        <div style="margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--dim);letter-spacing:1px;margin-bottom:4px;"><span>⚡ ENERGY</span><span id="dj-energy-val" style="color:var(--cyan);"></span></div>
+          <div style="height:4px;background:rgba(0,245,255,0.08);border-radius:2px;overflow:hidden;"><div id="dj-energy-bar" style="height:100%;background:linear-gradient(90deg,var(--cyan),var(--magenta));border-radius:2px;transition:width 0.8s ease;box-shadow:0 0 6px var(--cyan);"></div></div>
+        </div>
+        <div style="margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--dim);letter-spacing:1px;margin-bottom:4px;"><span>🌑 DARKNESS</span><span id="dj-dark-val" style="color:var(--magenta);"></span></div>
+          <div style="height:4px;background:rgba(0,245,255,0.08);border-radius:2px;overflow:hidden;"><div id="dj-dark-bar" style="height:100%;background:linear-gradient(90deg,var(--magenta),#660033);border-radius:2px;transition:width 0.8s ease;box-shadow:0 0 6px var(--magenta);"></div></div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--dim);letter-spacing:1px;margin-bottom:4px;"><span>🌀 WEIRDNESS</span><span id="dj-weird-val" style="color:var(--green);"></span></div>
+          <div style="height:4px;background:rgba(0,245,255,0.08);border-radius:2px;overflow:hidden;"><div id="dj-weird-bar" style="height:100%;background:linear-gradient(90deg,var(--green),#006644);border-radius:2px;transition:width 0.8s ease;box-shadow:0 0 6px var(--green);"></div></div>
+        </div>
+      </div>
+
+      <!-- Safety scores -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 14px;">
+        <div style="background:rgba(255,34,68,0.06);border:1px solid rgba(255,34,68,0.2);border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-size:8px;color:var(--dim);letter-spacing:1px;margin-bottom:4px;">🤘 AGGRO SCORE</div>
+          <div id="dj-aggro" style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--red);text-shadow:0 0 10px var(--red);"></div>
+          <div style="font-size:7px;color:var(--dim);margin-top:2px;">/ 10</div>
+        </div>
+        <div style="background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.2);border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-size:8px;color:var(--dim);letter-spacing:1px;margin-bottom:4px;">🌱 FIRST TIMER</div>
+          <div id="dj-beginner" style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--green);text-shadow:0 0 10px var(--green);"></div>
+          <div style="font-size:7px;color:var(--dim);margin-top:2px;">/ 10</div>
+        </div>
+      </div>
+
+      <!-- Tracks -->
+      <div style="padding:0 16px 16px;">
+        <div style="font-family:'Orbitron',monospace;font-size:8px;letter-spacing:3px;color:var(--dim);margin-bottom:8px;">SIGNATURE TRACKS</div>
+        <div id="dj-tracks" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px 16px;">
+        <button class="pbtn" style="margin:0;width:100%;font-size:9px;padding:10px;" onclick="shareVibeToSquad()">📡 SHARE VIBE TO SQUAD</button>
+        <button class="pbtn" style="margin:0;width:100%;font-size:9px;padding:10px;border-color:rgba(255,0,255,0.35);color:var(--magenta);" onclick="addToWatchlist()">⭐ ADD TO WATCHLIST</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div><!-- /phone -->
+
+<div style="text-align:center;margin-top:20px;padding-bottom:40px;">
+  <div style="font-family:'Orbitron',monospace;font-size:10px;letter-spacing:4px;color:rgba(0,245,255,0.35);">TRAVEL RAVERS // V2 PROTOTYPE // OFFLINE-FIRST</div>
+  <div style="font-size:9px;color:rgba(100,150,180,0.3);margin-top:5px;letter-spacing:2px;">MESH NETWORK // FESTIVAL SURVIVAL // NO SIGNAL REQUIRED</div>
+</div>
+</div><!-- /app-wrapper -->
+
+<script>
+// ═══════════════ DATA ═══════════════
+const FESTIVALS = {
+  creamfields:  { name:'CREAMFIELDS', sub:'CREAMFIELDS 2026 // DARESBURY', mapLabel:'CREAMFIELDS 2026', lat:'53.3498', lng:'-2.7280' },
+  terminalv:    { name:'TERMINAL V',  sub:'TERMINAL V 2026 // EDINBURGH',  mapLabel:'TERMINAL V 2026', lat:'55.9441', lng:'-3.2308' },
+  parklife:     { name:'PARKLIFE',    sub:'PARKLIFE 2026 // MANCHESTER',    mapLabel:'PARKLIFE 2026',   lat:'53.4808', lng:'-2.2426' },
+  glastonbury:  { name:'GLASTONBURY', sub:'GLASTONBURY 2026 // SOMERSET',   mapLabel:'GLASTONBURY 2026',lat:'51.1522', lng:'-2.7101' },
+  notting:      { name:'NOTTING HILL',sub:'NOTTING HILL CARNIVAL // LONDON',mapLabel:'NHC 2026',        lat:'51.5159', lng:'-0.2054' },
+  tomorrowland: { name:'TOMORROWLAND',sub:'TOMORROWLAND 2026 // BELGIUM',   mapLabel:'TML BELGIUM 2026',lat:'51.0891', lng:'4.3823' },
+  o2arena:      { name:'O2 ARENA',    sub:'O2 ARENA // LONDON',             mapLabel:'O2 ARENA',        lat:'51.5030', lng:'0.0032' },
+  houghton:     { name:'HOUGHTON',    sub:'HOUGHTON FESTIVAL 2026 // NORFOLK',mapLabel:'HOUGHTON 2026', lat:'52.5500', lng:'0.7200' },
+};
+
+const TIMETABLE = {
+  thu: [
+    { stage:'MAIN STAGE', color:'#00f5ff', sets:[
+      { time:'18:00', artist:'WARM UP SET', genre:'House · Garage', fav:false },
+      { time:'19:30', artist:'FISHER', genre:'Tech House', fav:false },
+      { time:'21:00', artist:'JOHN SUMMIT', genre:'Tech House', fav:true, now:true },
+      { time:'23:00', artist:'CALVIN HARRIS', genre:'EDM · Pop House', fav:false },
+    ]},
+    { stage:'TECHNO DOME', color:'#ff00ff', sets:[
+      { time:'20:00', artist:'KLANGKUENSTLER', genre:'Hard Techno', fav:false },
+      { time:'22:00', artist:'CHARLOTTE DE WITTE', genre:'Techno · Acid', fav:true },
+      { time:'00:00', artist:'SARA LANDRY', genre:'Techno · ETERNALISM', fav:false },
+    ]},
+    { stage:'ACID ARENA', color:'#ff8800', sets:[
+      { time:'21:00', artist:'ELI BROWN', genre:'Tech House', fav:false },
+      { time:'23:00', artist:'ADAM BEYER', genre:'Techno', fav:false },
+      { time:'01:00', artist:'RICHIE HAWTIN', genre:'Acid Techno', fav:true },
+    ]},
+  ],
+  fri: [
+    { stage:'MAIN STAGE', color:'#00f5ff', sets:[
+      { time:'17:00', artist:'OPENING ACT', genre:'Progressive House', fav:false },
+      { time:'19:00', artist:'PEGGY GOU', genre:'House · Indie Dance', fav:true, now:true },
+      { time:'21:30', artist:'BICEP', genre:'Electronic · House', fav:false },
+      { time:'23:30', artist:'ERIC PRYDZ', genre:'Progressive · Techno', fav:true },
+    ]},
+    { stage:'TECHNO DOME', color:'#ff00ff', sets:[
+      { time:'20:00', artist:'REBEKAH', genre:'Techno · Industrial', fav:false },
+      { time:'22:00', artist:'AMELIE LENS', genre:'Techno', fav:true },
+      { time:'00:00', artist:'I HATE MODELS', genre:'Hard Techno · EBM', fav:false },
+    ]},
+    { stage:'HALO 360', color:'#00ff88', sets:[
+      { time:'18:00', artist:'DJ KOZE', genre:'Deep House · Electronica', fav:true },
+      { time:'21:00', artist:'FLOATING POINTS', genre:'Electronic', fav:false },
+      { time:'23:00', artist:'MODERAT', genre:'Indie Electronic', fav:false },
+    ]},
+  ],
+  sat: [
+    { stage:'MAIN STAGE', color:'#00f5ff', sets:[
+      { time:'16:00', artist:'BONOBO', genre:'Electronic · Jazz', fav:false },
+      { time:'18:30', artist:'DISCLOSURE', genre:'UK Garage · House', fav:true },
+      { time:'21:00', artist:'KRAFTWERK', genre:'Electronic · Synth', fav:false },
+      { time:'23:30', artist:'CARL COX', genre:'Techno · House', fav:true },
+    ]},
+    { stage:'TECHNO DOME', color:'#ff00ff', sets:[
+      { time:'19:00', artist:'SCALER', genre:'Techno', fav:false },
+      { time:'21:00', artist:'KI/KI', genre:'Hard Techno', fav:true, now:true },
+      { time:'23:00', artist:'ALIGNMENT', genre:'Techno · Hard Techno', fav:false },
+      { time:'01:00', artist:'BLAWAN', genre:'Industrial Techno', fav:false },
+    ]},
+  ],
+  sun: [
+    { stage:'MAIN STAGE', color:'#00f5ff', sets:[
+      { time:'14:00', artist:'CLOSING PARTY', genre:'House · Disco', fav:false },
+      { time:'16:00', artist:'HONEY DIJON', genre:'House · Disco', fav:true },
+      { time:'18:30', artist:'MARSHALL JEFFERSON', genre:'Chicago House', fav:false },
+      { time:'21:00', artist:'FINALE B2B', genre:'All Genres', fav:false },
+    ]},
+    { stage:'ACID ARENA', color:'#ff8800', sets:[
+      { time:'15:00', artist:'808 STATE', genre:'Techno · Rave', fav:false },
+      { time:'17:30', artist:'THE ORB', genre:'Ambient Techno', fav:false },
+      { time:'20:00', artist:'ORBITAL', genre:'Electronic · Techno', fav:true },
+    ]},
+  ],
+};
+
+// ═══════════════ DJ VIBE PROFILES ═══════════════
+const DJ_PROFILES = {
+  'FISHER': {
+    origin:'🇦🇺 SYDNEY, AUSTRALIA', since:'2014', peak:'22:00–02:00',
+    vibe:'PEAK TIME DESTROYER', crowd:'HEDONIST ARMY',
+    bpm:'128–132', energy:92, darkness:35, weirdness:55,
+    tags:['TECH HOUSE','BIG ROOM','PEAK TIME','CROWD PLEASER'],
+    color:'#00f5ff', icon:'🦈',
+    bio:'Loud. Relentless. Built for the main stage. Expect massive drops, crowd sing-alongs and pure euphoric chaos.',
+    tracks:['Losing It','You Little Beauty','Stop It','I\'m Doing It'],
+    aggroScore:7, firstTimerScore:9,
+  },
+  'JOHN SUMMIT': {
+    origin:'🇺🇸 CHICAGO, USA', since:'2018', peak:'21:00–02:00',
+    vibe:'UNDERGROUND CROSSOVER', crowd:'TECH HOUSE MASSIVE',
+    bpm:'126–130', energy:88, darkness:40, weirdness:50,
+    tags:['TECH HOUSE','DEEP TECH','CHICAGO ROOTS'],
+    color:'#00f5ff', icon:'🏔️',
+    bio:'Chicago roots meet modern tech house. Constantly evolving, melodically rich sets that take crowds on a journey.',
+    tracks:['La Danza','Human','Where You Are','Shiver'],
+    aggroScore:6, firstTimerScore:8,
+  },
+  'CALVIN HARRIS': {
+    origin:'🏴󠁧󠁢󠁳󠁣󠁴󠁿 DUMFRIES, SCOTLAND', since:'2007', peak:'22:00–00:00',
+    vibe:'POP HOUSE ANTHEM MACHINE', crowd:'EVERYONE',
+    bpm:'124–128', energy:95, darkness:10, weirdness:20,
+    tags:['POP HOUSE','EDM','ANTHEMS','CROSSOVER'],
+    color:'#ffff00', icon:'⭐',
+    bio:'The biggest main stage show on the planet. If you know even one song, you\'ll lose your mind. Pyrotechnics, confetti, pure festival magic.',
+    tracks:['Summer','Feel So Close','One Kiss','Pray to God'],
+    aggroScore:3, firstTimerScore:10,
+  },
+  'CHARLOTTE DE WITTE': {
+    origin:'🇧🇪 GHENT, BELGIUM', since:'2012', peak:'00:00–06:00',
+    vibe:'DARK MATTER TECHNO', crowd:'TECHNO PURISTS',
+    bpm:'140–150', energy:85, darkness:95, weirdness:70,
+    tags:['TECHNO','ACID','DARK','HYPNOTIC','PEAK TIME'],
+    color:'#ff00ff', icon:'👁️',
+    bio:'Belgian techno royalty. Hypnotic, relentless, deeply dark. Not for the faint-hearted. One of the most intense experiences in electronic music.',
+    tracks:['Doppler','Dopamine','Sgat','Return to Nowhere'],
+    aggroScore:9, firstTimerScore:3,
+  },
+  'KLANGKUENSTLER': {
+    origin:'🇩🇪 GERMANY', since:'2019', peak:'20:00–03:00',
+    vibe:'HARD TECHNO OVERLOAD', crowd:'HARD TECHNO WARRIORS',
+    bpm:'145–160', energy:99, darkness:80, weirdness:75,
+    tags:['HARD TECHNO','RAVE','INDUSTRIAL','BRUTAL'],
+    color:'#ff00ff', icon:'⚡',
+    bio:'The current king of hard techno. Absurd energy levels. If the mosh pit has a mosh pit, this is it. Ear plugs ESSENTIAL.',
+    tracks:['Make Me Feel','Raving Society','Maschine','Horsepower'],
+    aggroScore:10, firstTimerScore:1,
+  },
+  'SARA LANDRY': {
+    origin:'🇺🇸 DALLAS, USA', since:'2018', peak:'01:00–06:00',
+    vibe:'DARK RAVE GODDESS', crowd:'DEEP RAVERS',
+    bpm:'138–148', energy:88, darkness:88, weirdness:65,
+    tags:['TECHNO','DARK TECHNO','RAVE','INDUSTRIAL'],
+    color:'#ff00ff', icon:'🌑',
+    bio:'Texas-born techno force. Raw, spiritual, deeply connected to the rave. Sets feel like a ritual — you either get it or you don\'t.',
+    tracks:['I Don\'t Play','ETERNALISM','Holy War','Chaos'],
+    aggroScore:8, firstTimerScore:4,
+  },
+  'RICHIE HAWTIN': {
+    origin:'🇨🇦 ONTARIO, CANADA', since:'1990', peak:'01:00–07:00',
+    vibe:'ACID TECHNO PIONEER', crowd:'TECHNO SCHOLARS',
+    bpm:'135–145', energy:82, darkness:85, weirdness:88,
+    tags:['ACID TECHNO','MINIMAL','EXPERIMENTAL','PIONEER'],
+    color:'#ff8800', icon:'🧪',
+    bio:'Thirty years deep. The inventor of a sound. Watching Richie play is like watching history happen. Surgical, hypnotic, utterly unique.',
+    tracks:['Spastik','Minus Orange','Go','Consumed'],
+    aggroScore:7, firstTimerScore:5,
+  },
+  'ADAM BEYER': {
+    origin:'🇸🇪 STOCKHOLM, SWEDEN', since:'1994', peak:'23:00–04:00',
+    vibe:'DRUMCODE COMMANDER', crowd:'TECHNO FAITHFUL',
+    bpm:'138–145', energy:90, darkness:75, weirdness:45,
+    tags:['TECHNO','DRUMCODE','DRIVING','PEAK TIME'],
+    color:'#ff8800', icon:'🥁',
+    bio:'Swedish techno institution. The Drumcode sound: powerful, punchy, perfectly engineered. Crowds trust him completely.',
+    tracks:['I AM','Teach Me','You Got Me','Bam Bam'],
+    aggroScore:8, firstTimerScore:5,
+  },
+  'ELI BROWN': {
+    origin:'🇬🇧 SHEFFIELD, UK', since:'2016', peak:'21:00–02:00',
+    vibe:'UK TECH HOUSE FIRE', crowd:'HOUSE HEADS',
+    bpm:'126–131', energy:85, darkness:45, weirdness:40,
+    tags:['TECH HOUSE','UK SOUND','PEAK TIME','GRITTY'],
+    color:'#ff8800', icon:'🔥',
+    bio:'Sheffield\'s finest. Raw, gritty UK tech house with serious attitude. One of the most exciting acts to emerge from British underground.',
+    tracks:['Be Good','Heartbeat','Closer','System'],
+    aggroScore:6, firstTimerScore:7,
+  },
+  'PEGGY GOU': {
+    origin:'🇰🇷 SEOUL, SOUTH KOREA', since:'2014', peak:'19:00–23:00',
+    vibe:'DISCO HOUSE ICON', crowd:'EVERYONE / FASHION CROWD',
+    bpm:'122–127', energy:78, darkness:20, weirdness:60,
+    tags:['HOUSE','DISCO','INDIE DANCE','ICONIC'],
+    color:'#00f5ff', icon:'🌸',
+    bio:'K-pop meets Berlin underground. Joyful, colourful, fashionable sets that bridge underground and mainstream. Party energy through the roof.',
+    tracks:['(It Goes Like) Nanana','Fleek','I Go','Starry Night'],
+    aggroScore:2, firstTimerScore:10,
+  },
+  'BICEP': {
+    origin:'🇬🇧 BELFAST, UK', since:'2012', peak:'21:00–00:00',
+    vibe:'EMOTIONAL ELECTRONIC', crowd:'MUSIC LOVERS',
+    bpm:'124–128', energy:80, darkness:30, weirdness:55,
+    tags:['ELECTRONIC','HOUSE','MELODIC','EMOTIONAL'],
+    color:'#00f5ff', icon:'💙',
+    bio:'Belfast duo making electronic music that makes you feel things. Beautifully crafted, emotionally resonant. Sunrises and sunsets in sound.',
+    tracks:['Glue','Film','Apricots','Rain'],
+    aggroScore:3, firstTimerScore:9,
+  },
+  'ERIC PRYDZ': {
+    origin:'🇸🇪 STOCKHOLM, SWEDEN', since:'2000', peak:'23:00–04:00',
+    vibe:'PROGRESSIVE TECHNO WIZARD', crowd:'DEVOTED FANS',
+    bpm:'128–136', energy:88, darkness:55, weirdness:72,
+    tags:['PROGRESSIVE','TECHNO','EPIC','CINEMATIC','PRYDA'],
+    color:'#00f5ff', icon:'🌌',
+    bio:'The EPIC experience. Prydz shows are legendary — massive production, his own visual language, cinematic progressive techno that builds for hours.',
+    tracks:['Call on Me','Pjanoo','Every Day','NOPUS'],
+    aggroScore:6, firstTimerScore:7,
+  },
+  'AMELIE LENS': {
+    origin:'🇧🇪 ANTWERP, BELGIUM', since:'2014', peak:'22:00–05:00',
+    vibe:'HYPNOTIC TECHNO POWER', crowd:'TECHNO FAITHFUL',
+    bpm:'138–146', energy:92, darkness:80, weirdness:58,
+    tags:['TECHNO','HYPNOTIC','DARK','DRIVING'],
+    color:'#ff00ff', icon:'🔮',
+    bio:'Non-stop energy with a hypnotic edge. Belgian techno at its finest — relentless but musical, dark but uplifting. Utterly mesmerising.',
+    tracks:['Higher','Love to the Stranger','Exhale','EXHALE'],
+    aggroScore:8, firstTimerScore:4,
+  },
+  'DJ KOZE': {
+    origin:'🇩🇪 HAMBURG, GERMANY', since:'1995', peak:'18:00–22:00',
+    vibe:'COSMIC DEEP HOUSE', crowd:'MUSIC CONNOISSEURS',
+    bpm:'120–126', energy:65, darkness:25, weirdness:92,
+    tags:['DEEP HOUSE','COSMIC','WEIRD','BEAUTIFUL'],
+    color:'#00ff88', icon:'🪐',
+    bio:'Strange, beautiful, otherworldly. Koze\'s sets defy genre. Deep, cosmic, unpredictable — you\'ll hear things you\'ve never heard before.',
+    tracks:['Pick Up','XTC','Seeing Aliens','My Old Jacket'],
+    aggroScore:1, firstTimerScore:8,
+  },
+  'CARL COX': {
+    origin:'🇬🇧 BARBADOS-BORN BRITISH', since:'1985', peak:'23:00–06:00',
+    vibe:'THE GODFATHER OF TECHNO', crowd:'EVERYONE',
+    bpm:'135–145', energy:95, darkness:60, weirdness:40,
+    tags:['TECHNO','HOUSE','LEGEND','PEAK TIME','ICONIC'],
+    color:'#00f5ff', icon:'👑',
+    bio:'40 years deep. The most loved man in dance music. Carl Cox sets are spiritual experiences — pure joy, pure energy, pure love. A bucket list moment.',
+    tracks:['Phuture Bound','I Want You','Sensual Sophis','Phoebus Apollo'],
+    aggroScore:7, firstTimerScore:9,
+  },
+  'HONEY DIJON': {
+    origin:'🇺🇸 CHICAGO, USA', since:'2000', peak:'16:00–22:00',
+    vibe:'DISCO HOUSE ELEGANCE', crowd:'QUEER / HOUSE FAITHFUL',
+    bpm:'120–126', energy:75, darkness:15, weirdness:65,
+    tags:['HOUSE','DISCO','CHICAGO','UNDERGROUND'],
+    color:'#00f5ff', icon:'🍯',
+    bio:'Chicago house meets Paris fashion week. Sophisticated, soulful, genuinely moving. Honey Dijon plays music from the soul.',
+    tracks:['Not About You','Balearic Gabber','Everything is War','The Sweetest Taboo'],
+    aggroScore:2, firstTimerScore:9,
+  },
+  'ORBITAL': {
+    origin:'🇬🇧 SEVENOAKS, UK', since:'1989', peak:'20:00–23:00',
+    vibe:'RAVE HISTORY LIVE', crowd:'ORIGINAL RAVERS + NEW FANS',
+    bpm:'130–140', energy:85, darkness:40, weirdness:70,
+    tags:['TECHNO','RAVE','LIVE','PIONEERING','90S LEGENDS'],
+    color:'#ff8800', icon:'🎭',
+    bio:'Living British rave history. Seeing Orbital live is seeing where all of this came from. Emotional, euphoric, essential.',
+    tracks:['Chime','Halcyon','Satan','Belfast'],
+    aggroScore:5, firstTimerScore:8,
+  },
+};
+
+// ═══════════════ STATE ═══════════════
+let selectedFest = 'creamfields';
+let activePinType = { type:'tent', emoji:'⛺', color:'#00f5ff', label:'MY TENT' };
+let userPins = [];
+let pinCount = 0;
+
+const PIN_TYPES = {
+  tent:   { emoji:'⛺', color:'#00f5ff', label:'MY TENT' },
+  toilet: { emoji:'🚽', color:'#00ff88', label:'CLEAN TOILET' },
+  water:  { emoji:'💧', color:'#4488ff', label:'WATER STALL' },
+  food:   { emoji:'🍕', color:'#ff8800', label:'FOOD STALL' },
+  charge: { emoji:'⚡', color:'#ffff00', label:'CHARGER' },
+  meet:   { emoji:'📍', color:'#ff00ff', label:'MEET HERE' },
+};
+
+// ═══════════════ NAVIGATION ═══════════════
+function goScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
+  if (name === 'time') renderTimetable('thu');
+}
+
+// ═══════════════ FESTIVAL SELECT ═══════════════
+function selectFest(el) {
+  document.querySelectorAll('.fest-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedFest = el.dataset.id;
+}
+
+function filterFests(cat, el) {
+  document.querySelectorAll('.day-tabs .ptype, .pin-sel .ptype').forEach(b => {});
+  document.querySelectorAll('[onclick^="filterFests"]').forEach(b => b.classList.remove('ap'));
+  el.classList.add('ap');
+  document.querySelectorAll('.fest-card').forEach(c => {
+    c.style.display = (cat === 'all' || c.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+
+function enterFestival() {
+  const fest = FESTIVALS[selectedFest] || FESTIVALS.creamfields;
+  document.getElementById('radar-fest-name').textContent = fest.name + ' // RADAR';
+  document.getElementById('radar-fest-sub').textContent = fest.sub;
+  document.getElementById('map-fest-name').textContent = fest.name + ' // MAP';
+  document.getElementById('map-fest-sub').textContent = fest.sub;
+  document.getElementById('map-co').textContent = fest.mapLabel;
+  document.getElementById('tt-fest-sub').textContent = fest.sub;
+  goScreen('radar');
+  showToast('✓ LOADED: ' + fest.mapLabel + ' // ALL DATA OFFLINE READY');
+}
+
+function addCustomEvent() {
+  const val = document.getElementById('custom-event').value.trim().toUpperCase();
+  if (!val) return;
+  const grid = document.getElementById('fest-grid');
+  const card = document.createElement('div');
+  card.className = 'fest-card';
+  card.dataset.cat = 'custom';
+  card.dataset.id = 'custom_' + Date.now();
+  card.style.cssText = '--accent:var(--yellow)';
+  card.onclick = function(){ selectFest(this); };
+  card.innerHTML = `<div class="fest-emoji">📍</div><div class="fest-name">${val}</div><div class="fest-info">Custom Event<br>Added by you</div><div class="fest-cap" style="color:var(--yellow)">CUSTOM</div>`;
+  grid.appendChild(card);
+  document.getElementById('custom-event').value = '';
+  selectFest(card);
+  showToast('✓ CUSTOM EVENT ADDED: ' + val);
+}
+
+// ═══════════════ TIMETABLE ═══════════════
+function renderTimetable(day) {
+  const stages = TIMETABLE[day] || TIMETABLE.thu;
+  const container = document.getElementById('timetable-content');
+  container.innerHTML = '';
+  stages.forEach(stage => {
+    const col = document.createElement('div');
+    col.className = 'stage-col';
+    col.style.setProperty('--stage-color', stage.color);
+    col.innerHTML = `<div class="stage-hdr" style="background:rgba(0,0,0,0.3);"><div style="width:3px;height:20px;background:${stage.color};border-radius:2px;box-shadow:0 0 6px ${stage.color};"></div><div class="stage-hdr-name">${stage.name}</div></div>`;
+    stage.sets.forEach(set => {
+      const row = document.createElement('div');
+      row.className = 'set-row' + (set.now ? ' now-playing' : '');
+      const hasProfile = DJ_PROFILES[set.artist];
+      row.innerHTML = `
+        <div class="set-time">${set.time}</div>
+        <div class="set-artist" style="flex:1;">
+          <div class="set-name" style="color:${set.now ? stage.color : 'var(--text)'};">${set.artist}${hasProfile ? ' <span style="font-size:9px;color:var(--dim);letter-spacing:1px;">VIBE ›</span>' : ''}</div>
+          <div class="set-genre">${set.genre}</div>
+        </div>
+        <div class="set-fav${set.fav ? ' active' : ''}" onclick="event.stopPropagation();togFav(this)">${set.fav ? '⭐' : '☆'}</div>`;
+      if (hasProfile) {
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', (e) => {
+          if (e.target.classList.contains('set-fav')) return;
+          openDJModal(set.artist, stage.color);
+        });
+        // Add subtle hint glow on hover
+        row.style.transition = 'all 0.2s';
+      }
+      col.appendChild(row);
+    });
+    container.appendChild(col);
+  });
+}
+
+function switchDay(day, el) {
+  document.querySelectorAll('.dtab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderTimetable(day);
+}
+
+function togFav(el) {
+  el.classList.toggle('active');
+  el.textContent = el.classList.contains('active') ? '⭐' : '☆';
+}
+
+// ═══════════════ PIN SYSTEM ═══════════════
+function selPin(el) {
+  document.querySelectorAll('.ptype').forEach(b => b.classList.remove('ap'));
+  el.classList.add('ap');
+  const type = el.dataset.type;
+  activePinType = { type, ...PIN_TYPES[type] };
+  const ind = document.getElementById('pin-ind');
+  ind.textContent = activePinType.emoji + ' TAP MAP TO PIN ' + activePinType.label;
+  ind.style.borderColor = activePinType.color;
+  ind.style.color = activePinType.color;
+}
+
+function dropPin(event) {
+  const svg = document.getElementById('map-svg');
+  const rect = svg.getBoundingClientRect();
+  const x = (event.clientX - rect.left) * (358 / rect.width);
+  const y = (event.clientY - rect.top) * (270 / rect.height);
+  if (x<10||x>348||y<10||y>260) return;
+  pinCount++;
+  const id = 'pin_' + pinCount;
+  const pin = { id, x, y, ...activePinType };
+  userPins.push(pin);
+  renderPinMap(pin);
+  addPinList(pin);
+  flashPin(x, y);
+  showToast(activePinType.emoji + ' PINNED: ' + activePinType.label + ' // TAP SHARE TO BROADCAST');
+}
+
+function h2r(hex, a) {
+  if (!hex || hex.startsWith('var')) return `rgba(0,245,255,${a})`;
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+function renderPinMap(pin) {
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.id = 'mpin-'+pin.id;
+  const rip = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  rip.setAttribute('cx',pin.x); rip.setAttribute('cy',pin.y); rip.setAttribute('r','4');
+  rip.setAttribute('fill','none'); rip.setAttribute('stroke',pin.color); rip.setAttribute('stroke-width','1'); rip.setAttribute('opacity','0.5');
+  rip.innerHTML=`<animate attributeName="r" values="5;18;5" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0;0.6" dur="2.2s" repeatCount="indefinite"/>`;
+  const circ = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  circ.setAttribute('cx',pin.x); circ.setAttribute('cy',pin.y); circ.setAttribute('r','9');
+  circ.setAttribute('fill',h2r(pin.color,0.18)); circ.setAttribute('stroke',pin.color); circ.setAttribute('stroke-width','1.5');
+  const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+  txt.setAttribute('x',pin.x); txt.setAttribute('y',pin.y+4); txt.setAttribute('text-anchor','middle'); txt.setAttribute('font-size','10'); txt.textContent=pin.emoji;
+  const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+  lbl.setAttribute('x',pin.x+12); lbl.setAttribute('y',pin.y-8); lbl.setAttribute('font-size','7');
+  lbl.setAttribute('fill',pin.color); lbl.setAttribute('font-family','Share Tech Mono'); lbl.textContent=pin.label;
+  g.appendChild(rip); g.appendChild(circ); g.appendChild(txt); g.appendChild(lbl);
+  document.getElementById('user-pins').appendChild(g);
+}
+
+function flashPin(x,y) {
+  const svg = document.getElementById('map-svg');
+  const f = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  f.setAttribute('cx',x); f.setAttribute('cy',y); f.setAttribute('r','22'); f.setAttribute('fill',activePinType.color); f.setAttribute('opacity','0.35');
+  svg.appendChild(f); setTimeout(()=>svg.removeChild(f),280);
+}
+
+function addPinList(pin) {
+  document.getElementById('no-pins').style.display='none';
+  const item = document.createElement('div');
+  item.className='pli'; item.id='pli-'+pin.id;
+  item.innerHTML=`<span style="font-size:17px;">${pin.emoji}</span><div style="flex:1;"><div style="font-size:10px;color:${pin.color||'var(--cyan)'};">${pin.label}</div><div style="font-size:8px;color:var(--dim);">YOU // just now // squad notified</div></div><div style="display:flex;gap:5px;"><button class="mbtn cb" onclick="broadcastPin(event,'${pin.emoji}','${pin.label}')">📡 SHARE</button><button class="mbtn rb" onclick="rmPin('${pin.id}')">✕</button></div>`;
+  document.getElementById('pins-list').appendChild(item);
+}
+
+function rmPin(id) {
+  document.getElementById('mpin-'+id)?.remove();
+  document.getElementById('pli-'+id)?.remove();
+  userPins = userPins.filter(p=>p.id!==id);
+  if (userPins.length===0) document.getElementById('no-pins').style.display='block';
+}
+
+function broadcastPin(e, emoji, label) {
+  const btn = e.target;
+  const orig = btn.textContent;
+  btn.textContent='✓ SENT'; btn.style.color='var(--green)'; btn.style.borderColor='rgba(0,255,136,0.3)';
+  setTimeout(()=>{ btn.textContent=orig; btn.style.color='var(--cyan)'; btn.style.borderColor='rgba(0,245,255,0.28)'; },2200);
+  showToast('📡 BROADCASTING '+emoji+' '+label+' TO SQUAD VIA MESH');
+}
+
+// ═══════════════ MISC ═══════════════
+function pingLoc(e) {
+  const btn = e.target;
+  const orig = btn.textContent;
+  btn.textContent='📡 PINGING... BROADCASTING';
+  btn.style.borderColor='rgba(0,255,136,0.35)'; btn.style.color='var(--green)';
+  showToast('✓ LOCATION SENT // MESH NODES RECEIVED');
+  setTimeout(()=>{ btn.textContent=orig; btn.style.borderColor='rgba(0,245,255,0.38)'; btn.style.color='var(--cyan)'; },2400);
+}
+
+function meetMe(place) { showToast('📡 BROADCASTING: MEET ME AT '+place); }
+
+function togCheck(item) {
+  const box=item.querySelector('.cbox'), txt=item.querySelector('.ctxt');
+  if(box.classList.contains('chk')){ box.classList.remove('chk'); box.textContent=''; txt.classList.remove('dn'); }
+  else { box.classList.add('chk'); box.textContent='✓'; txt.classList.add('dn'); }
+}
+
+function trigSOS() { document.getElementById('sos-norm').style.display='none'; document.getElementById('sos-sent').style.display='flex'; }
+function cancelSOS() { document.getElementById('sos-sent').style.display='none'; document.getElementById('sos-norm').style.display='flex'; }
+function sendOkay() { showToast("✅ BROADCASTING: I'M OKAY // SQUAD NOTIFIED"); }
+
+// ═══════════════ DJ VIBE MODAL ═══════════════
+function openDJModal(artistName, stageColor) {
+  const dj = DJ_PROFILES[artistName];
+  if (!dj) return;
+  const c = dj.color || stageColor || '#00f5ff';
+
+  // Populate
+  document.getElementById('dj-icon').textContent = dj.icon || '🎧';
+  document.getElementById('dj-name').textContent = artistName;
+  document.getElementById('dj-name').style.color = c;
+  document.getElementById('dj-name').style.textShadow = `0 0 16px ${c}`;
+  document.getElementById('dj-origin').textContent = dj.origin;
+  document.getElementById('dj-since').textContent = `SINCE ${dj.since} · ${dj.vibe}`;
+  document.getElementById('dj-bio').textContent = dj.bio;
+  document.getElementById('dj-bpm').textContent = dj.bpm;
+  document.getElementById('dj-peak').textContent = dj.peak;
+  document.getElementById('dj-crowd').textContent = dj.crowd;
+  document.getElementById('dj-header').style.background = `linear-gradient(90deg,${c},var(--magenta))`;
+
+  // Tags
+  const tagsEl = document.getElementById('dj-tags');
+  tagsEl.innerHTML = dj.tags.map(t => `<span style="padding:3px 10px;border-radius:3px;font-size:8px;letter-spacing:1px;font-family:'Orbitron',monospace;background:${c}18;border:1px solid ${c}44;color:${c};">${t}</span>`).join('');
+
+  // Meters (start at 0, animate to value)
+  document.getElementById('dj-energy-val').textContent = dj.energy + '%';
+  document.getElementById('dj-dark-val').textContent = dj.darkness + '%';
+  document.getElementById('dj-weird-val').textContent = dj.weirdness + '%';
+  document.getElementById('dj-energy-bar').style.width = '0%';
+  document.getElementById('dj-dark-bar').style.width = '0%';
+  document.getElementById('dj-weird-bar').style.width = '0%';
+
+  // Scores
+  const aggroColor = dj.aggroScore >= 8 ? 'var(--red)' : dj.aggroScore >= 5 ? 'var(--orange)' : 'var(--green)';
+  const beginnerColor = dj.firstTimerScore >= 7 ? 'var(--green)' : dj.firstTimerScore >= 4 ? 'var(--orange)' : 'var(--red)';
+  document.getElementById('dj-aggro').textContent = dj.aggroScore;
+  document.getElementById('dj-aggro').style.color = aggroColor;
+  document.getElementById('dj-aggro').style.textShadow = `0 0 10px ${aggroColor}`;
+  document.getElementById('dj-beginner').textContent = dj.firstTimerScore;
+  document.getElementById('dj-beginner').style.color = beginnerColor;
+  document.getElementById('dj-beginner').style.textShadow = `0 0 10px ${beginnerColor}`;
+
+  // Tracks
+  document.getElementById('dj-tracks').innerHTML = dj.tracks.map(t =>
+    `<span style="padding:3px 10px;border-radius:20px;font-size:8px;color:var(--dim);border:1px solid rgba(0,245,255,0.1);background:rgba(0,245,255,0.03);letter-spacing:0.5px;">${t}</span>`
+  ).join('');
+
+  // Show
+  const modal = document.getElementById('dj-modal');
+  modal.style.display = 'block';
+  modal.scrollTop = modal.scrollHeight;
+
+  // Animate bars after short delay
+  setTimeout(() => {
+    document.getElementById('dj-energy-bar').style.width = dj.energy + '%';
+    document.getElementById('dj-dark-bar').style.width = dj.darkness + '%';
+    document.getElementById('dj-weird-bar').style.width = dj.weirdness + '%';
+  }, 120);
+}
+
+function closeDJModal(e) {
+  if (e && e.target !== document.getElementById('dj-modal')) return;
+  document.getElementById('dj-modal').style.display = 'none';
+}
+
+function shareVibeToSquad() {
+  const name = document.getElementById('dj-name').textContent;
+  showToast('📡 SENT TO SQUAD: CHECK OUT ' + name + ' // VIBE INTEL SHARED');
+}
+
+function addToWatchlist() {
+  const name = document.getElementById('dj-name').textContent;
+  document.getElementById('dj-modal').style.display = 'none';
+  showToast('⭐ ADDED TO WATCHLIST: ' + name);
+}
+
+// ═══════════════ TOAST ═══════════════
+document.addEventListener('DOMContentLoaded', function() { enterFestival(); });
+
+function showToast(msg) {
+  let t = document.getElementById('tr-toast');
+  if (!t) {
+    t = document.createElement('div'); t.id='tr-toast';
+    t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:rgba(2,8,18,0.92);backdrop-filter:blur(20px);border:1px solid rgba(0,245,255,0.35);border-radius:20px;padding:8px 20px;font-size:9px;color:var(--cyan);letter-spacing:1px;z-index:99999;white-space:nowrap;box-shadow:0 4px 24px rgba(0,245,255,0.12);transition:all 0.3s;font-family:"Share Tech Mono",monospace;opacity:0;';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg; t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._t); t._t=setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(6px)'; },2600);
+}
+
+// Init timetable on load
+renderTimetable('thu');
+</script>
+</body>
+</html>
