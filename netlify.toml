@@ -1,0 +1,16 @@
+[build]
+  command   = "npm run build"
+  publish   = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Required environment variables (set these in Netlify UI → Site settings → Environment variables):
+#   MAILCHIMP_API_KEY  — your Mailchimp API key (format: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-us21)
+#   MAILCHIMP_LIST_ID  — your Mailchimp audience/list ID
+
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
