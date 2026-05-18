@@ -1,12 +1,13 @@
 // TRAVEL RAVERS: Root router — all pages wired
 // Pages are lazy-loaded for code splitting; only Layout/Header/Footer are eager.
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import Onboarding from "./components/Onboarding";
 import { FestivalStoreProvider } from "./context/FestivalStoreContext";
 import { FestivalFocusProvider } from "./context/FestivalFocusContext";
 
@@ -61,6 +62,14 @@ function PageLoader() {
   );
 }
 
+function OnboardingGate({ children }: { children: ReactNode }) {
+  const [done, setDone] = useState(
+    () => localStorage.getItem("tr_onboarding_completed") === "true"
+  );
+  if (!done) return <Onboarding onComplete={() => setDone(true)} />;
+  return <>{children}</>;
+}
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -71,6 +80,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <HashRouter>
+          <OnboardingGate>
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route element={<Layout />}>
@@ -109,6 +119,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          </OnboardingGate>
         </HashRouter>
       </TooltipProvider>
     </FestivalFocusProvider>
