@@ -13,6 +13,7 @@ import { csvFestivals } from "@/data/csvFestivals";
 import { festivals as richFestivals } from "@/data/content";
 import { Stay22Modal } from "@/components/Stay22Modal";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import PackingChecklist from "@/components/PackingChecklist";
 
 // ── Festival name lookup across all data sources ──────────────────────────────
 interface FestivalMeta {
@@ -161,53 +162,55 @@ export default function MyWeekendsPage() {
               const cfg = statusConfig[item.status];
               const Icon = cfg.icon;
               return (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.06 }}
-                  className="glass-card p-4 sm:p-5 border-border/40 flex items-center justify-between gap-4"
-                >
-                  <div className="flex-1 min-w-0">
-                    <Link
-                      to={`/festivals/${item.id}`}
-                      className="font-display text-sm font-bold text-foreground hover:text-tr-cyan transition-colors line-clamp-1"
-                    >
-                      {item.name}
-                    </Link>
-                    <p className="text-muted-foreground/60 text-xs mt-0.5 line-clamp-1">
-                      {item.subtitle}
-                    </p>
-                  </div>
+                <div key={item.id} className="space-y-2">
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.06 }}
+                    className="glass-card p-4 sm:p-5 border-border/40 flex items-center justify-between gap-4"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <Link
+                        to={`/festivals/${item.id}`}
+                        className="font-display text-sm font-bold text-foreground hover:text-tr-cyan transition-colors line-clamp-1"
+                      >
+                        {item.name}
+                      </Link>
+                      <p className="text-muted-foreground/60 text-xs mt-0.5 line-clamp-1">
+                        {item.subtitle}
+                      </p>
+                    </div>
 
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className={cfg.classes}>
-                      <Icon className="w-3 h-3" aria-hidden="true" />
-                      {cfg.label}
-                    </span>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <span className={cfg.classes}>
+                        <Icon className="w-3 h-3" aria-hidden="true" />
+                        {cfg.label}
+                      </span>
 
-                    {item.status === "going" && (
+                      {item.status === "going" && (
+                        <button
+                          type="button"
+                          onClick={() => setStay22Open(true)}
+                          className="hidden sm:inline-flex items-center gap-1 text-[0.6rem] font-display uppercase tracking-wider px-2 py-1 rounded border border-tr-green/30 bg-tr-green/10 text-tr-green hover:bg-tr-green/20 transition-colors"
+                          aria-label={`Book accommodation near ${item.name}`}
+                        >
+                          <Hotel className="w-3 h-3" aria-hidden="true" />
+                          Book Stay
+                        </button>
+                      )}
+
                       <button
                         type="button"
-                        onClick={() => setStay22Open(true)}
-                        className="hidden sm:inline-flex items-center gap-1 text-[0.6rem] font-display uppercase tracking-wider px-2 py-1 rounded border border-tr-green/30 bg-tr-green/10 text-tr-green hover:bg-tr-green/20 transition-colors"
-                        aria-label={`Book accommodation near ${item.name}`}
+                        onClick={() => setTicketStatus(item.id, "none")}
+                        className="text-muted-foreground/40 hover:text-tr-red transition-colors p-1 rounded"
+                        aria-label={`Remove ${item.name} from plans`}
                       >
-                        <Hotel className="w-3 h-3" aria-hidden="true" />
-                        Book Stay
+                        <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
                       </button>
-                    )}
-
-                    <button
-                      type="button"
-                      onClick={() => setTicketStatus(item.id, "none")}
-                      className="text-muted-foreground/40 hover:text-tr-red transition-colors p-1 rounded"
-                      aria-label={`Remove ${item.name} from plans`}
-                    >
-                      <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
-                    </button>
-                  </div>
-                </motion.div>
+                    </div>
+                  </motion.div>
+                  <PackingChecklist festivalSlug={item.id} compact={true} />
+                </div>
               );
             })}
 

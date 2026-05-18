@@ -24,6 +24,7 @@ import type { FestivalBrain } from "@/data/festivalBrain";
 import editorialData from "@/data/travel_ravers_editorial.json";
 import { buildStay22EmbedUrl, buildStay22DeepLinkUrl } from "@/lib/stay22";
 import TripCostCard from "./TripCostCard";
+import PackingChecklist from "./PackingChecklist";
 
 interface Editorial {
   festivalName: string;
@@ -689,6 +690,9 @@ export default function CsvFestivalDetailLayout({ festival, brainFestival }: Pro
               )}
             </EditorialSection>
           )}
+
+          {/* PACKING CHECKLIST */}
+          <PackingChecklist festivalSlug={festival.slug} festivalName={festival.festivalName} />
 
           {/* 8. GET TICKETS */}
           <section className="rounded-lg border border-tr-cyan/20 p-5" style={{ backgroundColor: "hsl(185 80% 50% / 0.04)" }}>

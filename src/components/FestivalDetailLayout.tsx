@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import EmailCapture from "./EmailCapture";
 import TripCostCard from "./TripCostCard";
+import PackingChecklist from "./PackingChecklist";
 
 import type { Festival } from "@/data/content";
 import { csvFestivals } from "@/data/csvFestivals";
@@ -786,6 +787,9 @@ export default function FestivalDetailLayout({ festival, brainFestival }: Props)
               </div>
             </section>
           )}
+
+          {/* PACKING CHECKLIST */}
+          <PackingChecklist festivalSlug={festival.slug} festivalName={festival.name} />
 
           {/* 8. EMAIL CAPTURE */}
           <EmailCapture
