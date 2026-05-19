@@ -13,7 +13,7 @@
     },
     "production": {
       "autoIncrement": true,
-      "prebuildCommand": "bash eas-build-pre-install.sh",
+      "prebuildCommand": "bash eas-hooks/eas-build-pre-install.sh",
       "ios": {
         "scheme": "App",
         "buildConfiguration": "Release",
