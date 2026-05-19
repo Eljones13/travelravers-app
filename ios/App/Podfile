@@ -1,0 +1,13 @@
+require_relative '../../node_modules/@capacitor/ios/scripts/pods_helpers'
+
+platform :ios, '15.0'
+use_frameworks! :linkage => :static
+
+target 'App' do
+  # Capacitor dependencies managed via Swift Package Manager (CapApp-SPM)
+  # This Podfile exists so EAS Build's "Install pods" phase succeeds
+end
+
+post_install do |installer|
+  assertDeploymentTarget(installer)
+end
