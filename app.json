@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Travel Ravers",
-    "slug": "travelravers-app",
+    "slug": "vite_react_shadcn_ts",
     "version": "1.0.0",
     "ios": {
       "bundleIdentifier": "com.travelravers.app"
