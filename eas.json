@@ -15,7 +15,8 @@
       "autoIncrement": true,
       "ios": {
         "scheme": "App",
-        "buildConfiguration": "Release"
+        "buildConfiguration": "Release",
+        "image": "latest"
       }
     }
   },
