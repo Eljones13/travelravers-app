@@ -1,0 +1,11 @@
+{
+	"appId": "com.travelravers.app",
+	"appName": "Travel Ravers",
+	"webDir": "dist",
+	"server": {
+		"androidScheme": "https"
+	},
+	"packageClassList": [
+		"LocalNotificationsPlugin"
+	]
+}

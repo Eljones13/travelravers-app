@@ -1,0 +1,1 @@
+import{j as r}from"./react-vendor-xZKfQ7D7.js";import{S as s}from"./SchemaScript-CIHHBXpY.js";function o({items:e}){return r.jsx(s,{schema:{"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:e.map((t,m)=>({"@type":"ListItem",position:m+1,name:t.name,item:t.url}))}})}export{o as B};
