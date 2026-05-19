@@ -14,7 +14,8 @@
     "production": {
       "autoIncrement": true,
       "ios": {
-        "scheme": "App"
+        "scheme": "App",
+        "buildConfiguration": "Release"
       }
     }
   },
