@@ -140,8 +140,11 @@ export default function FestivalDetailPage() {
             },
           }}
         />
-        {/* ── Plan bar ── */}
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 mb-4 flex flex-wrap items-center gap-3">
+        {/* ── Plan bar — fixed bottom on mobile, normal flow on sm+ ── */}
+        <div
+          className="fixed bottom-0 inset-x-0 z-50 sm:static sm:inset-auto sm:z-auto bg-background/95 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border-t border-border/30 sm:border-0 px-4 py-3 sm:py-0 sm:mb-4 flex items-center gap-3 sm:flex-wrap sm:max-w-3xl sm:mx-auto sm:px-6"
+          style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
+        >
           <button
             type="button"
             onClick={() => setTicketStatus(festivalId, STATUS_CYCLE[currentStatus])}
@@ -174,6 +177,8 @@ export default function FestivalDetailPage() {
         </div>
 
         <FestivalDetailLayout festival={richFestival} brainFestival={brainFestival} />
+        {/* Spacer so fixed plan bar doesn't cover content on mobile */}
+        <div className="h-20 sm:h-0" aria-hidden="true" />
       </>
     );
   }
@@ -218,8 +223,11 @@ export default function FestivalDetailPage() {
         }}
       />
 
-      {/* ── Plan bar ── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 mb-4 flex flex-wrap items-center gap-3">
+      {/* ── Plan bar — fixed bottom on mobile, normal flow on sm+ ── */}
+      <div
+        className="fixed bottom-0 inset-x-0 z-50 sm:static sm:inset-auto sm:z-auto bg-background/95 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border-t border-border/30 sm:border-0 px-4 py-3 sm:py-0 sm:mb-4 flex items-center gap-3 sm:flex-wrap sm:max-w-4xl sm:mx-auto sm:px-6"
+        style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
+      >
         <button
           type="button"
           onClick={() => setTicketStatus(festivalId, STATUS_CYCLE[currentStatus])}
@@ -252,6 +260,8 @@ export default function FestivalDetailPage() {
       </div>
 
       <CsvFestivalDetailLayout festival={csvFestival!} brainFestival={brainFestival} />
+      {/* Spacer so fixed plan bar doesn't cover content on mobile */}
+      <div className="h-20 sm:h-0" aria-hidden="true" />
     </>
   );
 }

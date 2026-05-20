@@ -10,10 +10,11 @@
 //   8. GET TICKETS button
 //   9. GET THE APP banner
 
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Volume2, MapPin, Calendar, Tent, Globe,
+  Volume2, VolumeX, MapPin, Calendar, Tent, Globe,
   ExternalLink, Ticket, Hotel, Music2, ArrowLeft,
   Plane, Shield, Star, ShoppingBag, Youtube,
   Thermometer, Droplets, Users, Layers,
@@ -84,48 +85,72 @@ function buildFlightsUrl(f: CsvFestival): string {
 // ── HERO ──────────────────────────────────────────────────────────────────────
 
 function VideoHero({ festival, resolvedVideoId }: { festival: CsvFestival; resolvedVideoId: string | null }) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [muted, setMuted] = useState(true);
+
   // Use brain-resolved video ID (null means no video available)
   const id = resolvedVideoId;
   const hasVideo = !!id;
   const watchUrl = `https://www.youtube.com/watch?v=${id}`;
-  const thumbnailUrl = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+  const embedSrc = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&playsinline=1&controls=0&loop=1&playlist=${id}&rel=0&modestbranding=1`;
+
+  const toggleMute = () => {
+    const iframe = iframeRef.current;
+    if (!iframe?.contentWindow) return;
+    const func = muted ? "unMute" : "mute";
+    iframe.contentWindow.postMessage(
+      JSON.stringify({ event: "command", func, args: [] }),
+      "https://www.youtube.com",
+    );
+    setMuted((m) => !m);
+  };
 
   return (
     <div className="w-full aspect-video rounded-lg overflow-hidden border border-border/30 relative">
       {hasVideo ? (
-        <button
-          onClick={() => window.open(watchUrl, "_system")}
-          className="w-full h-full relative group cursor-pointer block"
-          aria-label={`Watch ${festival.festivalName} promo video on YouTube`}
-        >
-          <img
-            src={thumbnailUrl}
-            alt={`${festival.festivalName} promo video`}
-            className="w-full h-full object-cover"
+        <>
+          <iframe
+            ref={iframeRef}
+            src={embedSrc}
+            title={`${festival.festivalName} promo video`}
+            allow="autoplay; encrypted-media"
             loading="eager"
+            className="w-full h-full border-0"
+            aria-label={`${festival.festivalName} official promo video`}
           />
-          <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
-              style={{ backgroundColor: "#FF0000" }}
-            >
-              <svg viewBox="0 0 24 24" className="w-7 h-7 fill-white ml-1" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </div>
-          <div
-            className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[0.6rem] font-display uppercase tracking-wider"
+          <button
+            onClick={toggleMute}
+            aria-label={muted ? "Unmute video" : "Mute video"}
+            className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[0.6rem] font-display uppercase tracking-wider"
             style={{
               backgroundColor: "hsl(220 60% 3% / 0.80)",
               backdropFilter: "blur(8px)",
               border: "1px solid hsl(185 80% 50% / 0.25)",
-              color: "hsl(185 80% 65%)",
+              color: muted ? "hsl(185 80% 65%)" : "hsl(0 0% 80%)",
             }}
           >
-            Watch on YouTube
-          </div>
-        </button>
+            {muted
+              ? <><VolumeX className="w-3 h-3" aria-hidden="true" /> Unmute</>
+              : <><Volume2 className="w-3 h-3" aria-hidden="true" /> Mute</>
+            }
+          </button>
+          <button
+            onClick={() => window.open(watchUrl, "_system")}
+            aria-label={`Watch ${festival.festivalName} on YouTube`}
+            className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[0.6rem] font-display uppercase tracking-wider"
+            style={{
+              backgroundColor: "hsl(220 60% 3% / 0.80)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(255,0,0,0.30)",
+              color: "hsl(0 0% 80%)",
+            }}
+          >
+            <svg viewBox="0 0 24 24" className="w-3 h-3 fill-red-400" aria-hidden="true">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+            YouTube
+          </button>
+        </>
       ) : (
         <img
           src={festival.imageUrl}

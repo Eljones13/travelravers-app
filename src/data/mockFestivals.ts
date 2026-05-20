@@ -1,6 +1,11 @@
 // TRAVEL RAVERS: Mock festival data — used for featured strip + My Weekends
 // These are canonical UI-layer records; the full data lives in csvFestivals.ts / content.ts
 import type { Festival } from "@/types/festival";
+import imgCreamfields from "@/assets/festival-creamfields.jpg";
+import imgTomorrowland from "@/assets/festival-tomorrowland.jpg";
+import imgCamping from "@/assets/festival-camping.jpg";
+import imgHero from "@/assets/hero-festival.jpg";
+import imgUltra from "@/assets/festival-ultra.jpg";
 
 export const mockFestivals: Festival[] = [
   {
@@ -13,8 +18,7 @@ export const mockFestivals: Festival[] = [
     trackName: "Techno / House",
     ticketStatus: "none",
     isFeatured: true,
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&auto=format&fit=crop",
+    heroImageUrl: imgCreamfields,
   },
   {
     id: "tomorrowland",
@@ -26,8 +30,7 @@ export const mockFestivals: Festival[] = [
     trackName: "EDM / Progressive House",
     ticketStatus: "none",
     isFeatured: true,
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop",
+    heroImageUrl: imgTomorrowland,
   },
   {
     id: "defected-croatia",
@@ -39,8 +42,7 @@ export const mockFestivals: Festival[] = [
     trackName: "House",
     ticketStatus: "none",
     isFeatured: true,
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&auto=format&fit=crop",
+    heroImageUrl: imgCamping,
   },
   {
     id: "glastonbury",
@@ -52,8 +54,7 @@ export const mockFestivals: Festival[] = [
     trackName: "Multi-genre",
     ticketStatus: "none",
     isFeatured: true,
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&auto=format&fit=crop",
+    heroImageUrl: imgHero,
   },
   {
     id: "love-international-2026",
@@ -65,8 +66,7 @@ export const mockFestivals: Festival[] = [
     trackName: "House / Techno",
     ticketStatus: "none",
     isFeatured: false,
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&auto=format&fit=crop",
+    heroImageUrl: imgCamping,
   },
   {
     id: "sea-dance-festival-2026",
@@ -78,8 +78,7 @@ export const mockFestivals: Festival[] = [
     trackName: "Electronic / Dance",
     ticketStatus: "none",
     isFeatured: false,
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&auto=format&fit=crop",
+    heroImageUrl: imgUltra,
   },
 ];
 
