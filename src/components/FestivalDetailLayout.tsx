@@ -10,11 +10,10 @@
 //   8. GET TICKETS (Skiddle affiliate or text fallback)
 //   9. GET THE APP
 
-import { useRef, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Volume2, VolumeX, MapPin, Calendar, Globe, ExternalLink,
+  Volume2, MapPin, Calendar, Globe, ExternalLink,
   Ticket, Hotel, Music2, ArrowLeft, Plane, Shield, Star,
   ShoppingBag, AlertTriangle,
 } from "lucide-react";
@@ -98,56 +97,48 @@ function buildFlightsUrl(city: string): string {
 // ── HERO ──────────────────────────────────────────────────────────────────────
 
 function VideoHero({ festival, videoId }: { festival: Festival; videoId?: string }) {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [muted, setMuted] = useState(true);
-
-  const toggleMute = useCallback(() => {
-    const iframe = iframeRef.current;
-    if (!iframe?.contentWindow) return;
-    const func = muted ? "unMute" : "mute";
-    iframe.contentWindow.postMessage(
-      JSON.stringify({ event: "command", func, args: [] }),
-      "https://www.youtube.com",
-    );
-    setMuted((m) => !m);
-  }, [muted]);
-
   // Brain videoId takes priority over festival.youtubePromoId
   const id = videoId || festival.youtubePromoId;
   const hasVideo = !!id;
-  const embedSrc = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${id}&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&enablejsapi=1`;
+  const watchUrl = `https://www.youtube.com/watch?v=${id}`;
+  const thumbnailUrl = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
 
   return (
-    <div className="w-full aspect-video rounded-lg overflow-hidden border border-border/30 relative group">
+    <div className="w-full aspect-video rounded-lg overflow-hidden border border-border/30 relative">
       {hasVideo ? (
-        <>
-          <iframe
-            ref={iframeRef}
-            src={embedSrc}
-            title={`${festival.name} promo video`}
-            allow="autoplay; encrypted-media"
-            allowFullScreen={false}
+        <button
+          onClick={() => window.open(watchUrl, "_system")}
+          className="w-full h-full relative group cursor-pointer block"
+          aria-label={`Watch ${festival.name} promo video on YouTube`}
+        >
+          <img
+            src={thumbnailUrl}
+            alt={`${festival.name} promo video`}
+            className="w-full h-full object-cover"
             loading="eager"
-            className="w-full h-full border-0"
-            aria-label={`${festival.name} official promo video`}
           />
-          <button
-            onClick={toggleMute}
-            aria-label={muted ? "Unmute video" : "Mute video"}
-            className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[0.6rem] font-display uppercase tracking-wider transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100"
+          <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+            <div
+              className="w-16 h-16 rounded-full flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
+              style={{ backgroundColor: "#FF0000" }}
+            >
+              <svg viewBox="0 0 24 24" className="w-7 h-7 fill-white ml-1" aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div
+            className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[0.6rem] font-display uppercase tracking-wider"
             style={{
               backgroundColor: "hsl(220 60% 3% / 0.80)",
               backdropFilter: "blur(8px)",
               border: "1px solid hsl(185 80% 50% / 0.25)",
-              color: muted ? "hsl(185 80% 65%)" : "hsl(0 0% 80%)",
+              color: "hsl(185 80% 65%)",
             }}
           >
-            {muted
-              ? <><VolumeX className="w-3 h-3" aria-hidden="true" /> Unmute</>
-              : <><Volume2 className="w-3 h-3" aria-hidden="true" /> Mute</>
-            }
-          </button>
-        </>
+            Watch on YouTube
+          </div>
+        </button>
       ) : (
         <img
           src={festival.image}

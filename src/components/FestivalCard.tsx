@@ -71,6 +71,7 @@ export default function FestivalCard({
                 alt={`${name} festival`}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
+                onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
               />
             </figure>
           )}
@@ -112,6 +113,7 @@ export default function FestivalCard({
                 alt={`${name} festival`}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
+                onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
               />
             </figure>
           )}
@@ -148,6 +150,7 @@ export default function FestivalCard({
               alt={`${name} festival`}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               loading="lazy"
+              onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
             />
           </figure>
         )}

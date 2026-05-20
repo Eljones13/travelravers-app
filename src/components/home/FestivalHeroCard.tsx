@@ -35,6 +35,7 @@ export default function FestivalHeroCard({ festival, slug }: Props) {
         alt={`${festival.name} festival crowd`}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         loading="lazy"
+        onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
       />
 
       {/* Overlay gradient — bottom-heavy for legibility */}
